@@ -520,3 +520,18 @@ body{
     width: auto;
   }
 }
+/* ===== Bottoni azioni nel pannello ===== */
+.panel-actions{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
+
+.panel-actions a{
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
