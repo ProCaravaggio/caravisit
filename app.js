@@ -126,7 +126,7 @@ function openPanel(p, distancePretty){
     ${imgHtml}
 
     <div class="panel-actions">
-      <button id="btnBringHere" class="btn-primary" type="button">Portami qui</button>
+      <button id="btnBringHere" class="btn-primary" type="button">Zomma</button>
       <a class="btn-ghost" href="${gmaps}" target="_blank" rel="noopener">Apri in Google Maps</a>
     </div>
 
@@ -605,6 +605,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
 
