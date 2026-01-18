@@ -382,9 +382,9 @@ function buildLegend(){
   legendControl.addTo(map);
 
   // Popola voci legenda con conteggi
-const listEl = document.getElementById("legendList");
+const listEl = document.getElementById("legend");
 if (!listEl) {
-  console.warn("legendList non trovato: salto popolamento legenda.");
+  console.warn("legend non trovato: salto popolamento legenda.");
 } else {
   const counts = {};
   allPois.forEach(p => {
@@ -436,7 +436,7 @@ if (!listEl) {
 }
 
 function updateLegendActiveState() {
-  const listEl = document.getElementById("legendList");
+  const listEl = document.getElementById("legend");
   if (!listEl) return;
 
   const active = categoryFilter ? categoryFilter.value : "all";
@@ -584,6 +584,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
 
