@@ -827,10 +827,7 @@ async function loadItinerari(){
           layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`);
         }
 
-                // registra la linea e abilita route mode on click
-          routePolylines.push(layer);
-          layer.on("click", () => applyRouteMode(layer, name, desc));
-        }
+         
       }
     }).addTo(map);
 
@@ -907,5 +904,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
