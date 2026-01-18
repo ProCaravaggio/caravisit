@@ -379,8 +379,6 @@ function buildLegend(){
 }
 
 
-  legendControl.addTo(map);
-
   // Popola voci legenda con conteggi
 const listEl = document.getElementById("legend");
 if (!listEl) {
@@ -584,6 +582,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
 
