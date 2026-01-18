@@ -110,32 +110,38 @@ function getPrettyDistance(p){
 function openPanel(p, distancePretty){
   if (!sidePanel || !panelContent) return;
 
-  // supporta sia p.imgs (array) sia p.img (singola)
-  const imgs = Array.isArray(p.imgs) && p.imgs.length
-    ? p.imgs
-    : (p.img ? [p.img] : []);
+  const imgs = Array.isArray(p.imgs) ? p.imgs : [];
+  const firstImg = imgs[0];
 
-  const sliderHtml = imgs.length
-    ? buildSliderHtml(imgs, p.name)
+  const imgHtml = firstImg
+    ? `<img class="panel-img" src="${firstImg}" alt="${p.name}">`
     : "";
 
+  const gmaps = googleMapsDirectionsUrl(p);
+
   panelContent.innerHTML = `
-    <div class="panel-title">${escapeHtml(p.name)}</div>
-    <div class="badge">${escapeHtml(p.category || "")}</div>
+    <div class="panel-title">${p.name}</div>
+    <div class="badge">${p.category}</div>
 
-    ${sliderHtml}
+    ${imgHtml}
 
-    <div class="panel-text">${escapeHtml(p.long || p.short || "")}</div>
+    <div class="panel-actions">
+      <button id="btnBringHere" class="btn-primary" type="button">Portami qui</button>
+      <a class="btn-ghost" href="${gmaps}" target="_blank" rel="noopener">Apri in Google Maps</a>
+    </div>
+
+    <div class="panel-text">${p.long || p.short || ""}</div>
+
     <div class="panel-meta">
-      ${distancePretty ? `📍 Distanza: <strong>${escapeHtml(distancePretty)}</strong><br>` : ""}
-      Lat: ${Number(p.lat).toFixed(6)} · Lon: ${Number(p.lon).toFixed(6)}
+      ${distancePretty ? `📍 Distanza: <strong>${distancePretty}</strong><br>` : ""}
+      Lat: ${p.lat.toFixed(6)} · Lon: ${p.lon.toFixed(6)}
     </div>
   `;
 
   sidePanel.classList.remove("hidden");
 
-  // attiva slider (se c’è)
-  if (imgs.length) initSlider(panelContent);
+  const btn = document.getElementById("btnBringHere");
+  if (btn) btn.addEventListener("click", () => bringMeThere(p));
 }
 
 function buildSliderHtml(imgs, altBase){
@@ -475,6 +481,23 @@ function locateMe() {
 
 if (locateBtn) locateBtn.addEventListener("click", locateMe);
 
+function bringMeThere(p) {
+  if (!p) return;
+  map.setView([p.lat, p.lon], 18, { animate: true });
+}
+
+function googleMapsDirectionsUrl(p) {
+  if (!p) return "#";
+  const dest = `${p.lat},${p.lon}`;
+  // se l’utente ha già “Dove sono io?”, usa la sua posizione come partenza
+  if (userLatLng) {
+    const orig = `${userLatLng.lat},${userLatLng.lng}`;
+    return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(orig)}&destination=${encodeURIComponent(dest)}&travelmode=walking`;
+  }
+  // altrimenti apre direttamente la destinazione
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dest)}`;
+}
+
 // 10) Reset filtri (micro-dettaglio)
 function resetAll(){
   if (categoryFilter) categoryFilter.value = "all";
@@ -582,6 +605,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
 
