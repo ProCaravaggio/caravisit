@@ -9,6 +9,84 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+// ===== Pane itinerari (sotto ai marker) =====
+// markerPane di Leaflet è ~600 -> mettiamo le routes sotto (350)
+map.createPane("routesPane");
+map.getPane("routesPane").style.zIndex = 350;
+
+// ===== Itinerari (LineString) + Punti pericolosi (Point) =====
+let itinerariLayer = null;
+
+async function loadItinerari(){
+  try{
+    const res = await fetch("itinerari.geojson", { cache: "no-store" });
+    if (!res.ok) throw new Error("Impossibile caricare itinerari.geojson");
+    const geo = await res.json();
+
+    if (itinerariLayer) itinerariLayer.remove();
+
+    itinerariLayer = L.geoJSON(geo, {
+      pane: "routesPane",
+
+      // stile linee (colori diversi stabili per nome itinerario)
+      style: (f) => {
+        const t = f.geometry?.type;
+        if (t !== "LineString" && t !== "MultiLineString") return null;
+
+        const name = String(
+          f.properties?.name || f.properties?.Nome || f.properties?.title || "Itinerario"
+        );
+
+        const palette = ["#C8A15A", "#4DA3FF", "#38D39F", "#F05D5E", "#9B8CFF", "#FFB020"];
+
+        let h = 0;
+        for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+        const color = palette[h % palette.length];
+
+        return { color, weight: 5, opacity: 0.9 };
+      },
+
+      // punti pericolosi come cerchi rossi
+      pointToLayer: (f, latlng) => {
+        return L.circleMarker(latlng, {
+          pane: "routesPane",
+          radius: 7,
+          color: "#ff3b30",
+          fillColor: "#ff3b30",
+          fillOpacity: 0.9,
+          weight: 2
+        });
+      },
+
+      onEachFeature: (f, layer) => {
+        const g = f.geometry?.type;
+
+        if (g === "Point") {
+          const name =
+            f.properties?.name ||
+            f.properties?.Nome ||
+            f.properties?.title ||
+            "Punto pericoloso";
+          layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`);
+        }
+
+        if (g === "LineString" || g === "MultiLineString") {
+          const name =
+            f.properties?.name ||
+            f.properties?.Nome ||
+            f.properties?.title ||
+            "Itinerario";
+          layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`);
+        }
+      }
+    }).addTo(map);
+
+  } catch(err){
+    console.warn(err);
+  }
+}
+
+loadItinerari();
 
 // ===== 2) Stato =====
 let allPois = [];
@@ -27,7 +105,7 @@ const sidePanel = document.getElementById("sidePanel");
 const closePanel = document.getElementById("closePanel");
 const panelContent = document.getElementById("panelContent");
 
-// Drawer categorie
+// Header height (per drawer)
 const headerEl = document.querySelector(".topbar");
 function syncHeaderHeight(){
   if (!headerEl) return;
@@ -60,6 +138,7 @@ if (topbarToggle){
   });
 }
 
+// Drawer categorie
 const toggleCats = document.getElementById("toggleCats");
 const catsDrawer = document.getElementById("catsDrawer");
 const closeCats = document.getElementById("closeCats");
@@ -131,7 +210,7 @@ function getPrettyDistance(p){
   return meters < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(1)} km`;
 }
 
-// URL indicazioni Google Maps
+// URL indicazioni Google Maps (se ho posizione: origine=io, altrimenti apre destinazione)
 function googleMapsDirectionsUrl(p){
   if (!p) return "#";
   const dest = `${p.lat},${p.lon}`;
@@ -142,87 +221,11 @@ function googleMapsDirectionsUrl(p){
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dest)}`;
 }
 
-// ===== Itinerari (LineString) + Punti pericolosi (Point) =====
-let itinerariLayer = null;
-
-async function loadItinerari(){
-  try{
-    const res = await fetch("itinerari.geojson", { cache: "no-store" });
-    if (!res.ok) throw new Error("Impossibile caricare itinerari.geojson");
-    const geo = await res.json();
-
-    if (itinerariLayer) itinerariLayer.remove();
-
-    itinerariLayer = L.layerGroup([], { pane: "routesPane" }).addTo(map);
-
-    const palette = ["#C8A15A", "#4DA3FF", "#38D39F", "#F05D5E", "#9B8CFF", "#FFB020"];
-    function colorFromName(name){
-      const s = String(name || "Itinerario");
-      let h = 0;
-      for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-      return palette[h % palette.length];
-    }
-
-    // glow
-    L.geoJSON(geo, {
-      pane: "routesPane",
-      filter: f => {
-        const t = f.geometry?.type;
-        return t === "LineString" || t === "MultiLineString";
-      },
-      style: (f) => {
-        const name = f.properties?.name || f.properties?.Nome || f.properties?.title || "Itinerario";
-        const color = colorFromName(name);
-        return { color, weight: 10, opacity: 0.22, lineCap: "round", lineJoin: "round" };
-      }
-    }).addTo(itinerariLayer);
-
-    // linea netta
-    L.geoJSON(geo, {
-      pane: "routesPane",
-      filter: f => {
-        const t = f.geometry?.type;
-        return t === "LineString" || t === "MultiLineString";
-      },
-      style: (f) => {
-        const name = f.properties?.name || f.properties?.Nome || f.properties?.title || "Itinerario";
-        const color = colorFromName(name);
-        return { color, weight: 6, opacity: 0.92, lineCap: "round", lineJoin: "round" };
-      },
-      onEachFeature: (f, layer) => {
-        const name = f.properties?.name || f.properties?.Nome || f.properties?.title || "Itinerario";
-        layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`);
-      }
-    }).addTo(itinerariLayer);
-
-    // punti pericolosi
-    L.geoJSON(geo, {
-      pane: "routesPane",
-      filter: f => f.geometry?.type === "Point",
-      pointToLayer: (f, latlng) => {
-        return L.circleMarker(latlng, {
-          pane: "routesPane",
-          radius: 7,
-          color: "#ff3b30",
-          fillColor: "#ff3b30",
-          fillOpacity: 0.95,
-          weight: 2
-        });
-      },
-      onEachFeature: (f, layer) => {
-        const name = f.properties?.name || f.properties?.Nome || f.properties?.title || "Punto pericoloso";
-        layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`);
-      }
-    }).addTo(itinerariLayer);
-
-  } catch(err){
-    console.warn(err);
-  }
-}
-
 // ===== 6) Side panel + Slider =====
 function openPanel(p, distancePretty){
   if (!sidePanel || !panelContent) return;
+
+  // su mobile chiudi topbar quando apri dettagli
   if (window.matchMedia("(max-width: 640px)").matches) setTopbarCollapsed(true);
 
   const imgs = Array.isArray(p.imgs) ? p.imgs : (p.img ? [p.img] : []);
@@ -270,10 +273,6 @@ function openPanel(p, distancePretty){
 
   sidePanel.classList.remove("hidden");
 
-  // animazione ingresso pannello
-  sidePanel.classList.add("anim-in");
-  setTimeout(() => sidePanel.classList.remove("anim-in"), 220);
-
   setupSliderAndLightbox(imgs, p.name);
 }
 
@@ -288,7 +287,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeSidePanel();
 });
 
-// Slider behavior
+// Slider behavior (scroll-snap + pallini + frecce + click immagine)
 function setupSliderAndLightbox(imgs, title){
   const slider = panelContent.querySelector("[data-slider]");
   if (!slider || !imgs || imgs.length === 0) return;
@@ -331,9 +330,7 @@ function setupSliderAndLightbox(imgs, title){
   });
 
   dots.forEach(d => {
-    d.addEventListener("click", () => {
-      scrollToIndex(Number(d.dataset.dot));
-    });
+    d.addEventListener("click", () => scrollToIndex(Number(d.dataset.dot)));
   });
 
   slider.querySelectorAll("[data-open-lightbox]").forEach(imgEl => {
@@ -392,7 +389,7 @@ function renderMarkers({ shouldZoom = false } = {}) {
 
     const m = L.marker([p.lat, p.lon], { icon }).addTo(map);
 
-    // niente popup bianco
+    // NIENTE popup bianco: click = solo pannello
     m.on("click", () => openPanel(p, pretty));
 
     markers.push(m);
@@ -523,9 +520,6 @@ async function init() {
   buildLegend();
   renderMarkers();
 
-  // carica itinerari dopo che escapeHtml esiste e la pagina è “su”
-  loadItinerari();
-
   if (categoryFilter) {
     categoryFilter.addEventListener("change", () => {
       closeSidePanel();
@@ -613,4 +607,3 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
-
