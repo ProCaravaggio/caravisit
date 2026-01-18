@@ -731,6 +731,24 @@ body{
 #panelContent .media{
   background: transparent !important;
 }
+/* Dentro al pannello: qualunque immagine "foto" deve vedersi */
+#panelContent img{
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 260px !important;
+  object-fit: contain !important;
+  border-radius: 12px !important;
+}
+
+/* Se hai un contenitore nero che fa da “box” allo slider, toglie il nero */
+#panelContent .slider,
+#panelContent .carousel,
+#panelContent .gallery,
+#panelContent .media{
+  background: transparent !important;
+}
+
 
 
 
