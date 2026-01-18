@@ -24,15 +24,23 @@ async function loadItinerari(){
     itinerariLayer = L.geoJSON(geo, {
       // stile linee
       style: (f) => {
-        if (f.geometry && (f.geometry.type === "LineString" || f.geometry.type === "MultiLineString")){
-          return {
-            color: "#C8A15A",
-            weight: 5,
-            opacity: 0.9
-          };
-        }
-        return null;
-      },
+  const t = f.geometry?.type;
+  if (t !== "LineString" && t !== "MultiLineString") return null;
+
+  const name = String(
+    f.properties?.name || f.properties?.Nome || f.properties?.title || "Itinerario"
+  );
+
+  // colori ciclici (scegli tu la palette)
+  const palette = ["#C8A15A", "#4DA3FF", "#38D39F", "#F05D5E", "#9B8CFF", "#FFB020"];
+
+  // hash semplice del nome -> indice palette stabile
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  const color = palette[h % palette.length];
+
+  return { color, weight: 5, opacity: 0.9 };
+},
 
       // punti (pericoli) come cerchi rossi
       pointToLayer: (f, latlng) => {
@@ -596,5 +604,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
