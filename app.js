@@ -815,20 +815,38 @@ async function loadItinerari(){
         });
       },
 
-      onEachFeature: (f, layer) => {
-        const g = f.geometry?.type;
+     onEachFeature: (f, layer) => {
+  const g = f.geometry?.type;
 
-        if (g === "Point") {
-          const name =
-            f.properties?.name ||
-            f.properties?.Nome ||
-            f.properties?.title ||
-            "Punto pericoloso";
-          layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`);
-        }
+  if (g === "Point") {
+    const name =
+      f.properties?.name ||
+      f.properties?.Nome ||
+      f.properties?.title ||
+      "Punto pericoloso";
 
-         
-      }
+    layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`);
+  }
+
+  if (g === "LineString" || g === "MultiLineString") {
+    const name =
+      f.properties?.name ||
+      f.properties?.Nome ||
+      f.properties?.title ||
+      "Itinerario";
+
+    const desc =
+      f.properties?.desc ||
+      f.properties?.descrizione ||
+      "";
+
+    layer.bindPopup(`
+      <strong>${escapeHtml(name)}</strong><br>
+      <small>${escapeHtml(desc)}</small>
+    `);
+  }
+}
+
     }).addTo(map);
 
   } catch(err){
@@ -904,6 +922,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
 
