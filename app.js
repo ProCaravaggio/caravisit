@@ -1,22 +1,21 @@
-// 1) Mappa
+// ===== 1) Mappa =====
 const DEFAULT_VIEW = { center: [45.497, 9.644], zoom: 15 };
 
 const map = L.map("map", { zoomControl: true })
   .setView(DEFAULT_VIEW.center, DEFAULT_VIEW.zoom);
 
-// Base map
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
   attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// 2) Stato
+// ===== 2) Stato =====
 let allPois = [];
 let markers = [];
 let userLatLng = null;
 let userMarker = null;
 
-// 3) UI
+// ===== 3) UI =====
 const categoryFilter = document.getElementById("categoryFilter");
 const searchInput = document.getElementById("searchInput");
 const locateBtn = document.getElementById("locateBtn");
@@ -26,7 +25,8 @@ const resultsCount = document.getElementById("resultsCount");
 const sidePanel = document.getElementById("sidePanel");
 const closePanel = document.getElementById("closePanel");
 const panelContent = document.getElementById("panelContent");
-// --- Drawer categorie (legend) ---
+
+// Drawer categorie
 const headerEl = document.querySelector(".topbar");
 function syncHeaderHeight(){
   if (!headerEl) return;
@@ -57,7 +57,7 @@ if (toggleCats) toggleCats.addEventListener("click", () => {
 });
 if (closeCats) closeCats.addEventListener("click", closeCatsDrawer);
 
-// 4) Icone (le tue)
+// ===== 4) Icone =====
 function makeIcon(url) {
   return L.icon({
     iconUrl: url,
@@ -84,9 +84,9 @@ const categoryIcons = {
 };
 const defaultIcon = makeIcon("icons/default.png");
 
-// 5) Helpers
+// ===== 5) Helpers =====
 function escapeHtml(str){
-  return String(str || "")
+  return String(str ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -101,12 +101,12 @@ function truncate(str, max = 220){
 }
 
 function getPrettyDistance(p){
-  if (!userLatLng) return null;
+  if (!userLatLng) return "";
   const meters = userLatLng.distanceTo(L.latLng(p.lat, p.lon));
   return meters < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(1)} km`;
 }
 
-// 6) Side panel
+// ===== 6) Side panel + Slider =====
 function openPanel(p, distancePretty){
   if (!sidePanel || !panelContent) return;
 
@@ -150,95 +150,7 @@ function openPanel(p, distancePretty){
   sidePanel.classList.remove("hidden");
 
   // Attacca behavior slider + lightbox
-  setupSliderAndLightbox(p, imgs);
-}
-
-
-function buildSliderHtml(imgs, altBase){
-  const slides = imgs.map((src, i) => `
-    <div class="slide ${i === 0 ? "is-active" : ""}">
-      <img src="${src}" alt="${escapeHtml(altBase)} (${i+1})">
-    </div>
-  `).join("");
-
-  const dots = imgs.map((_, i) => `
-    <button class="dot ${i === 0 ? "is-active" : ""}" type="button" data-i="${i}" aria-label="Foto ${i+1}"></button>
-  `).join("");
-
-  return `
-  <div class="slider" data-index="0" data-total="${imgs.length}">
-    <div class="slides">
-      ${slides}
-    </div>
-
-    <div class="counter">1/${imgs.length}</div>
-
-    ${imgs.length > 1 ? `
-      <button class="nav prev" type="button" aria-label="Foto precedente">‹</button>
-      <button class="nav next" type="button" aria-label="Foto successiva">›</button>
-      <div class="dots">${dots}</div>
-    ` : ""}
-  </div>
-`;
-}
-
-function initSlider(root){
-  const slider = root.querySelector(".slider");
-  if (!slider) return;
-
-  const slides = Array.from(slider.querySelectorAll(".slide"));
-  const dots = Array.from(slider.querySelectorAll(".dot"));
-  const prevBtn = slider.querySelector(".prev");
-  const nextBtn = slider.querySelector(".next");
-  const counterEl = slider.querySelector(".counter");
-
-  const imgs = slides.map(s => s.querySelector("img")?.getAttribute("src")).filter(Boolean);
-  const total = slides.length;
-
-  function setIndex(i){
-    const idx = (i + total) % total;
-    slider.dataset.index = String(idx);
-
-    slides.forEach((s, k) => s.classList.toggle("is-active", k === idx));
-    dots.forEach((d, k) => d.classList.toggle("is-active", k === idx));
-    if (counterEl) counterEl.textContent = `${idx + 1}/${total}`;
-  }
-
-  if (prevBtn) prevBtn.addEventListener("click", () => setIndex(Number(slider.dataset.index) - 1));
-  if (nextBtn) nextBtn.addEventListener("click", () => setIndex(Number(slider.dataset.index) + 1));
-  dots.forEach(d => d.addEventListener("click", () => setIndex(Number(d.dataset.i))));
-
-  // click su immagine -> fullscreen
-  slides.forEach((s, i) => {
-    const img = s.querySelector("img");
-    if (!img) return;
-    img.style.cursor = "zoom-in";
-    img.addEventListener("click", () => openLightbox(imgs, i));
-  });
-
-  // swipe semplice
-  let startX = null;
-  slider.addEventListener("pointerdown", (e) => { startX = e.clientX; });
-  slider.addEventListener("pointerup", (e) => {
-    if (startX === null) return;
-    const dx = e.clientX - startX;
-    startX = null;
-    if (Math.abs(dx) < 30) return;
-    if (dx > 0) setIndex(Number(slider.dataset.index) - 1);
-    else setIndex(Number(slider.dataset.index) + 1);
-  });
-
-  setIndex(0);
-}
-
-// per evitare che descrizioni con < > rompano l’HTML
-function escapeHtml(str){
-  return String(str ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  setupSliderAndLightbox(imgs, p.name);
 }
 
 function closeSidePanel(){
@@ -252,7 +164,64 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeSidePanel();
 });
 
-// 7) Markers
+// Slider behavior (scroll-snap + pallini + frecce + click immagine)
+function setupSliderAndLightbox(imgs, title){
+  const slider = panelContent.querySelector("[data-slider]");
+  if (!slider || !imgs || imgs.length === 0) return;
+
+  const track = slider.querySelector("[data-track]");
+  const dotsWrap = slider.querySelector("[data-dots]");
+  const btnPrev = slider.querySelector(".slider-btn.prev");
+  const btnNext = slider.querySelector(".slider-btn.next");
+  if (!track || !dotsWrap) return;
+
+  const dots = Array.from(dotsWrap.querySelectorAll("[data-dot]"));
+
+  function setActiveDot(i){
+    dots.forEach((d, idx) => d.classList.toggle("active", idx === i));
+  }
+
+  function scrollToIndex(i){
+    const w = track.clientWidth;
+    track.scrollTo({ left: i * (w + 10), behavior: "smooth" });
+    setActiveDot(i);
+  }
+
+  track.addEventListener("scroll", () => {
+    const w = track.clientWidth;
+    const i = Math.round(track.scrollLeft / (w + 10));
+    const clamped = Math.max(0, Math.min(i, imgs.length - 1));
+    setActiveDot(clamped);
+  }, { passive: true });
+
+  if (btnPrev) btnPrev.addEventListener("click", () => {
+    const w = track.clientWidth;
+    const i = Math.round(track.scrollLeft / (w + 10));
+    scrollToIndex(Math.max(0, i - 1));
+  });
+
+  if (btnNext) btnNext.addEventListener("click", () => {
+    const w = track.clientWidth;
+    const i = Math.round(track.scrollLeft / (w + 10));
+    scrollToIndex(Math.min(imgs.length - 1, i + 1));
+  });
+
+  dots.forEach(d => {
+    d.addEventListener("click", () => {
+      scrollToIndex(Number(d.dataset.dot));
+    });
+  });
+
+  slider.querySelectorAll("[data-open-lightbox]").forEach(imgEl => {
+    imgEl.style.cursor = "zoom-in";
+    imgEl.addEventListener("click", () => {
+      const i = Number(imgEl.dataset.openLightbox);
+      openLightbox(imgs, i, title);
+    });
+  });
+}
+
+// ===== 7) Markers =====
 function clearMarkers() {
   markers.forEach(m => m.remove());
   markers = [];
@@ -312,18 +281,9 @@ function renderMarkers({ shouldZoom = false } = {}) {
     const icon = categoryIcons[p.category] || defaultIcon;
 
     const m = L.marker([p.lat, p.lon], { icon }).addTo(map);
+    m.bindPopup(popupHtml);
 
-m.on("click", () => {
-  // distanza “pretty” se disponibile
-  let pretty = "";
-  if (userLatLng) {
-    const meters = userLatLng.distanceTo(L.latLng(p.lat, p.lon));
-    pretty = meters < 1000 ? `${Math.round(meters)} m` : `${(meters/1000).toFixed(1)} km`;
-  }
-  openPanel(p, pretty);
-});
-
-    // Apri pannello al click sul marker
+    // click marker -> pannello
     m.on("click", () => openPanel(p, pretty));
 
     // Bottone "Dettagli" dentro popup
@@ -344,10 +304,10 @@ m.on("click", () => {
   if (shouldZoom) zoomToVisibleMarkers();
 }
 
-// 8) Categorie + legenda cliccabile
+// ===== 8) Categorie + legenda (drawer) =====
 function populateCategories(pois) {
   if (!categoryFilter) return;
-  const cats = Array.from(new Set(pois.map(p => p.category))).sort();
+  const cats = Array.from(new Set(pois.map(p => p.category))).sort((a,b) => a.localeCompare(b, "it"));
   cats.forEach(c => {
     const opt = document.createElement("option");
     opt.value = c;
@@ -356,14 +316,18 @@ function populateCategories(pois) {
   });
 }
 
-// Leaflet control legenda
-let legendControl = null;
+function updateLegendActiveState(){
+  if (!legendEl) return;
+  const active = categoryFilter ? categoryFilter.value : "all";
+  legendEl.querySelectorAll(".legend-item").forEach(el => {
+    el.classList.toggle("active", active !== "all" && el.dataset.cat === active);
+  });
+}
 
 function buildLegend(){
   if (!legendEl) return;
   legendEl.innerHTML = "";
 
-  // conta per categoria (solo tra i POI caricati)
   const counts = {};
   allPois.forEach(p => {
     if (!p.category) return;
@@ -372,94 +336,46 @@ function buildLegend(){
 
   const cats = Object.keys(counts).sort((a,b) => a.localeCompare(b, "it"));
 
+  // evita che scroll/click del drawer influenzino la mappa
+  L.DomEvent.disableClickPropagation(legendEl);
+  L.DomEvent.disableScrollPropagation(legendEl);
+
   cats.forEach(cat => {
     const row = document.createElement("div");
     row.className = "legend-item";
-    row.innerHTML = `
-      <div class="legend-left">
-        <img class="legend-icon" src="${(categoryIcons[cat] || defaultIcon).options.iconUrl}" alt="">
-        <div class="legend-name">${cat}</div>
-      </div>
-      <div class="legend-count">${counts[cat]}</div>
-    `;
-
-    // click: seleziona categoria e chiude drawer
-    row.addEventListener("click", () => {
-      if (categoryFilter) categoryFilter.value = cat;
-      closeCatsDrawer();
-      renderMarkers();
-    });
-
-    legendEl.appendChild(row);
-  });
-}
-
-
-  // Popola voci legenda con conteggi
-const listEl = document.getElementById("legend");
-if (!listEl) {
-  console.warn("legend non trovato: salto popolamento legenda.");
-} else {
-  const counts = {};
-  allPois.forEach(p => {
-    counts[p.category] = (counts[p.category] || 0) + 1;
-  });
-
-  const cats = Array.from(new Set(allPois.map(p => p.category))).sort();
-
-  // Impedisce che clic/scroll sulla legenda influenzi la mappa
-  L.DomEvent.disableClickPropagation(listEl);
-  L.DomEvent.disableScrollPropagation(listEl);
-
-  // pulisce lista prima di ripopolarla
-  listEl.innerHTML = "";
-
-  cats.forEach(cat => {
-    const item = document.createElement("div");
-    item.className = "legend-item";
-    item.dataset.cat = cat;
+    row.dataset.cat = cat;
 
     const iconUrl =
       (categoryIcons[cat] && categoryIcons[cat].options && categoryIcons[cat].options.iconUrl)
         ? categoryIcons[cat].options.iconUrl
         : "icons/default.png";
 
-    item.innerHTML = `
-      <img class="legend-icon" src="${iconUrl}" alt="">
-      <div class="legend-name">${escapeHtml(cat)}</div>
+    row.innerHTML = `
+      <div class="legend-left">
+        <img class="legend-icon" src="${iconUrl}" alt="">
+        <div class="legend-name">${escapeHtml(cat)}</div>
+      </div>
       <div class="legend-count">${counts[cat] || 0}</div>
     `;
 
-    item.addEventListener("click", () => {
-      // toggle: se già selezionata, torna "all"
-      if (categoryFilter && categoryFilter.value === cat) {
-        categoryFilter.value = "all";
-      } else if (categoryFilter) {
-        categoryFilter.value = cat;
-      }
+    // click: seleziona (toggle) e chiude drawer
+    row.addEventListener("click", () => {
+      if (categoryFilter && categoryFilter.value === cat) categoryFilter.value = "all";
+      else if (categoryFilter) categoryFilter.value = cat;
 
+      closeCatsDrawer();
       closeSidePanel();
       renderMarkers({ shouldZoom: true });
       updateLegendActiveState();
     });
 
-    listEl.appendChild(item);
+    legendEl.appendChild(row);
   });
 
   updateLegendActiveState();
 }
 
-function updateLegendActiveState() {
-  const listEl = document.getElementById("legend");
-  if (!listEl) return;
-
-  const active = categoryFilter ? categoryFilter.value : "all";
-  listEl.querySelectorAll(".legend-item").forEach(el => {
-    el.classList.toggle("active", active !== "all" && el.dataset.cat === active);
-  });
-}
-
-// 9) Geolocalizzazione
+// ===== 9) Geolocalizzazione =====
 function locateMe() {
   if (!("geolocation" in navigator)) {
     alert("Geolocalizzazione non supportata dal browser.");
@@ -491,24 +407,7 @@ function locateMe() {
 
 if (locateBtn) locateBtn.addEventListener("click", locateMe);
 
-function bringMeThere(p) {
-  if (!p) return;
-  map.setView([p.lat, p.lon], 18, { animate: true });
-}
-
-function googleMapsDirectionsUrl(p) {
-  if (!p) return "#";
-  const dest = `${p.lat},${p.lon}`;
-  // se l’utente ha già “Dove sono io?”, usa la sua posizione come partenza
-  if (userLatLng) {
-    const orig = `${userLatLng.lat},${userLatLng.lng}`;
-    return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(orig)}&destination=${encodeURIComponent(dest)}&travelmode=walking`;
-  }
-  // altrimenti apre direttamente la destinazione
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dest)}`;
-}
-
-// 10) Reset filtri (micro-dettaglio)
+// ===== 10) Reset =====
 function resetAll(){
   if (categoryFilter) categoryFilter.value = "all";
   if (searchInput) searchInput.value = "";
@@ -520,17 +419,15 @@ function resetAll(){
 
 if (resetBtn) resetBtn.addEventListener("click", resetAll);
 
-// 11) Init
+// ===== 11) Init =====
 async function init() {
   const res = await fetch("poi.json");
   allPois = await res.json();
 
   populateCategories(allPois);
   buildLegend();
-
   renderMarkers();
 
-  // Zoom solo quando cambi categoria dal select
   if (categoryFilter) {
     categoryFilter.addEventListener("change", () => {
       closeSidePanel();
@@ -539,7 +436,6 @@ async function init() {
     });
   }
 
-  // Niente zoom mentre scrivi
   if (searchInput) {
     searchInput.addEventListener("input", () => {
       closeSidePanel();
@@ -550,6 +446,7 @@ async function init() {
 }
 
 init();
+
 // ===== Lightbox (fullscreen) =====
 const lightbox = document.getElementById("lightbox");
 const lbImg = document.getElementById("lbImg");
@@ -560,12 +457,14 @@ const lbCounter = document.getElementById("lbCounter");
 
 let lbImgs = [];
 let lbIndex = 0;
+let lbTitle = "";
 
-function openLightbox(imgs, startIndex){
+function openLightbox(imgs, startIndex = 0, title = ""){
   if (!lightbox || !lbImg) return;
 
   lbImgs = imgs;
   lbIndex = startIndex;
+  lbTitle = title;
 
   lightbox.classList.remove("hidden");
   lightbox.setAttribute("aria-hidden", "false");
@@ -587,6 +486,8 @@ function renderLightbox(){
   const src = lbImgs[lbIndex];
 
   lbImg.src = src;
+  lbImg.alt = lbTitle ? `${lbTitle} (${lbIndex+1}/${total})` : `Foto ${lbIndex+1}/${total}`;
+
   if (lbCounter) lbCounter.textContent = `${lbIndex + 1}/${total}`;
   if (lbPrev) lbPrev.style.display = total > 1 ? "" : "none";
   if (lbNext) lbNext.style.display = total > 1 ? "" : "none";
@@ -602,7 +503,6 @@ if (lbClose) lbClose.addEventListener("click", closeLightbox);
 if (lbPrev) lbPrev.addEventListener("click", () => lbSetIndex(lbIndex - 1));
 if (lbNext) lbNext.addEventListener("click", () => lbSetIndex(lbIndex + 1));
 
-// click sullo sfondo chiude (non sul frame)
 if (lightbox) {
   lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) closeLightbox();
@@ -615,125 +515,3 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
-function setupSliderAndLightbox(p, imgs){
-  const slider = panelContent.querySelector("[data-slider]");
-  if (!slider || !imgs || imgs.length === 0) return;
-
-  const track = slider.querySelector("[data-track]");
-  const dotsWrap = slider.querySelector("[data-dots]");
-  const btnPrev = slider.querySelector(".slider-btn.prev");
-  const btnNext = slider.querySelector(".slider-btn.next");
-
-  const dots = Array.from(dotsWrap.querySelectorAll("[data-dot]"));
-
-  function setActiveDot(i){
-    dots.forEach((d, idx) => d.classList.toggle("active", idx === i));
-  }
-
-  function scrollToIndex(i){
-    const w = track.clientWidth;
-    track.scrollTo({ left: i * (w + 10), behavior: "smooth" });
-    setActiveDot(i);
-  }
-
-  // update dot on scroll (semplice ma efficace)
-  track.addEventListener("scroll", () => {
-    const w = track.clientWidth;
-    const i = Math.round(track.scrollLeft / (w + 10));
-    setActiveDot(Math.max(0, Math.min(i, imgs.length - 1)));
-  }, { passive: true });
-
-  // frecce
-  if (btnPrev) btnPrev.addEventListener("click", () => {
-    const w = track.clientWidth;
-    const i = Math.round(track.scrollLeft / (w + 10));
-    scrollToIndex(Math.max(0, i - 1));
-  });
-
-  if (btnNext) btnNext.addEventListener("click", () => {
-    const w = track.clientWidth;
-    const i = Math.round(track.scrollLeft / (w + 10));
-    scrollToIndex(Math.min(imgs.length - 1, i + 1));
-  });
-
-  // click sui pallini
-  dots.forEach(d => {
-    d.addEventListener("click", () => {
-      scrollToIndex(Number(d.dataset.dot));
-    });
-  });
-
-  // click immagine => lightbox
-  slider.querySelectorAll("[data-open-lightbox]").forEach(imgEl => {
-    imgEl.addEventListener("click", () => {
-      const i = Number(imgEl.dataset.openLightbox);
-      openLightbox(imgs, i, p.name);
-    });
-  });
-}
-
-/* ===== Lightbox =====
-   Se ce l’hai già, NON duplicare: dimmelo e lo adattiamo. */
-function openLightbox(imgs, startIndex = 0, title = ""){
-  const lb = document.getElementById("lightbox");
-  const lbImg = document.getElementById("lbImg");
-  const lbCounter = document.getElementById("lbCounter");
-  const btnClose = document.getElementById("lbClose");
-  const btnPrev = document.getElementById("lbPrev");
-  const btnNext = document.getElementById("lbNext");
-
-  if (!lb || !lbImg) return;
-
-  let idx = startIndex;
-
-  function render(){
-    lbImg.src = imgs[idx];
-    lbImg.alt = title ? `${title} (${idx+1}/${imgs.length})` : `Foto ${idx+1}`;
-    if (lbCounter) lbCounter.textContent = `${idx+1}/${imgs.length}`;
-  }
-
-  function show(){
-    lb.classList.remove("hidden");
-    lb.setAttribute("aria-hidden", "false");
-    render();
-  }
-
-  function hide(){
-    lb.classList.add("hidden");
-    lb.setAttribute("aria-hidden", "true");
-  }
-
-  function prev(){ idx = (idx - 1 + imgs.length) % imgs.length; render(); }
-  function next(){ idx = (idx + 1) % imgs.length; render(); }
-
-  btnClose && (btnClose.onclick = hide);
-  btnPrev && (btnPrev.onclick = prev);
-  btnNext && (btnNext.onclick = next);
-
-  // click fuori dall’immagine chiude
-  lb.addEventListener("click", (e) => {
-    if (e.target === lb) hide();
-  }, { once: true });
-
-  // tasti
-  document.addEventListener("keydown", function onKey(e){
-    if (lb.classList.contains("hidden")) {
-      document.removeEventListener("keydown", onKey);
-      return;
-    }
-    if (e.key === "Escape") hide();
-    if (e.key === "ArrowLeft") prev();
-    if (e.key === "ArrowRight") next();
-  });
-
-  show();
-}
-
-
-
-
-
-
-
-
-
