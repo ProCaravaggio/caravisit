@@ -26,6 +26,36 @@ const resultsCount = document.getElementById("resultsCount");
 const sidePanel = document.getElementById("sidePanel");
 const closePanel = document.getElementById("closePanel");
 const panelContent = document.getElementById("panelContent");
+// --- Drawer categorie (legend) ---
+const headerEl = document.querySelector(".topbar");
+function syncHeaderHeight(){
+  if (!headerEl) return;
+  document.documentElement.style.setProperty("--header-h", headerEl.offsetHeight + "px");
+}
+window.addEventListener("resize", syncHeaderHeight);
+syncHeaderHeight();
+
+const toggleCats = document.getElementById("toggleCats");
+const catsDrawer = document.getElementById("catsDrawer");
+const closeCats = document.getElementById("closeCats");
+const legendEl = document.getElementById("legend");
+
+function openCats(){
+  if (!catsDrawer) return;
+  catsDrawer.classList.remove("hidden");
+  catsDrawer.setAttribute("aria-hidden","false");
+}
+function closeCatsDrawer(){
+  if (!catsDrawer) return;
+  catsDrawer.classList.add("hidden");
+  catsDrawer.setAttribute("aria-hidden","true");
+}
+
+if (toggleCats) toggleCats.addEventListener("click", () => {
+  if (!catsDrawer) return;
+  catsDrawer.classList.contains("hidden") ? openCats() : closeCatsDrawer();
+});
+if (closeCats) closeCats.addEventListener("click", closeCatsDrawer);
 
 // 4) Icone (le tue)
 function makeIcon(url) {
@@ -265,9 +295,17 @@ function renderMarkers({ shouldZoom = false } = {}) {
 
     const icon = categoryIcons[p.category] || defaultIcon;
 
-    const m = L.marker([p.lat, p.lon], { icon })
-      .addTo(map)
-      .bindPopup(popupHtml);
+    const m = L.marker([p.lat, p.lon], { icon }).addTo(map);
+
+m.on("click", () => {
+  // distanza “pretty” se disponibile
+  let pretty = "";
+  if (userLatLng) {
+    const meters = userLatLng.distanceTo(L.latLng(p.lat, p.lon));
+    pretty = meters < 1000 ? `${Math.round(meters)} m` : `${(meters/1000).toFixed(1)} km`;
+  }
+  openPanel(p, pretty);
+});
 
     // Apri pannello al click sul marker
     m.on("click", () => openPanel(p, pretty));
@@ -305,21 +343,41 @@ function populateCategories(pois) {
 // Leaflet control legenda
 let legendControl = null;
 
-function buildLegend() {
-  if (legendControl) {
-    legendControl.remove();
-    legendControl = null;
-  }
+function buildLegend(){
+  if (!legendEl) return;
+  legendEl.innerHTML = "";
 
-  legendControl = L.control({ position: "bottomleft" });
-  legendControl.onAdd = function() {
-    const div = L.DomUtil.create("div", "legend");
-    div.innerHTML = `
-      <div class="legend-title">Categorie</div>
-      <div class="legend-list" id="legendList"></div>
+  // conta per categoria (solo tra i POI caricati)
+  const counts = {};
+  allPois.forEach(p => {
+    if (!p.category) return;
+    counts[p.category] = (counts[p.category] || 0) + 1;
+  });
+
+  const cats = Object.keys(counts).sort((a,b) => a.localeCompare(b, "it"));
+
+  cats.forEach(cat => {
+    const row = document.createElement("div");
+    row.className = "legend-item";
+    row.innerHTML = `
+      <div class="legend-left">
+        <img class="legend-icon" src="${(categoryIcons[cat] || defaultIcon).options.iconUrl}" alt="">
+        <div class="legend-name">${cat}</div>
+      </div>
+      <div class="legend-count">${counts[cat]}</div>
     `;
-    return div;
-  };
+
+    // click: seleziona categoria e chiude drawer
+    row.addEventListener("click", () => {
+      if (categoryFilter) categoryFilter.value = cat;
+      closeCatsDrawer();
+      renderMarkers();
+    });
+
+    legendEl.appendChild(row);
+  });
+}
+
 
   legendControl.addTo(map);
 
@@ -517,3 +575,4 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
