@@ -14,41 +14,41 @@
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <h1>Mappa di Caravaggio</h1>
-      <p>Esplora il borgo e dintorni</p>
-      <button id="toggleTopbar" class="topbar-toggle" type="button" aria-expanded="true" aria-label="Comprimi pannello">
-  ▾
-</button>
+<header class="topbar">
+  <div class="brand">
+    <h1>Mappa di Caravaggio</h1>
+    <p>Esplora il borgo e dintorni</p>
+  </div>
 
+  <button id="toggleTopbar" class="topbar-toggle" type="button"
+          aria-expanded="true" aria-label="Comprimi pannello">▾</button>
+
+  <div class="controls">
+    <label class="field">
+      <span>Categoria</span>
+      <select id="categoryFilter">
+        <option value="all">Tutte</option>
+      </select>
+    </label>
+
+    <button id="toggleCats" class="ghost-btn" type="button">Categorie</button>
+    
+    <label class="field">
+      <span>Cerca</span>
+      <input id="searchInput" placeholder="Cerca: castello, santuario, porta, museo..." />
+    </label>
+
+    <div class="actions">
+      <button id="locateBtn" class="btn-primary" type="button">Dove sono io?</button>
+      <button id="resetBtn" class="btn-ghost" type="button" title="Azzera filtri">Reset</button>
     </div>
 
-    <div class="controls">
-      <label class="field">
-        <span>Categoria</span>
-        <select id="categoryFilter">
-          <option value="all">Tutte</option>
-        </select>
-      </label>
-
-      <button id="toggleCats" class="ghost-btn" type="button">Categorie</button>
-      
-      <label class="field">
-        <span>Cerca</span>
-        <input id="searchInput" placeholder="Cerca: castello, santuario, porta, museo..." />
-      </label>
-
-      <div class="actions">
-        <button id="locateBtn" class="btn-primary" type="button">Dove sono io?</button>
-        <button id="resetBtn" class="btn-ghost" type="button" title="Azzera filtri">Reset</button>
-      </div>
-
-      <div class="meta">
-        <span id="resultsCount" class="pill" aria-live="polite">0 risultati</span>
-      </div>
+    <div class="meta">
+      <span id="resultsCount" class="pill" aria-live="polite">0 risultati</span>
     </div>
-  </header>
+  </div>
+</header>
+
 
   <main class="layout">
     <div id="map"></div>
@@ -90,6 +90,7 @@
 </div> 
 </body>
 </html>
+
 
 
 
