@@ -534,4 +534,55 @@ body{
   align-items:center;
   justify-content:center;
 }
+/* ===== Topbar collassabile (solo mobile) ===== */
+.topbar{
+  position: relative;
+}
+
+.topbar-toggle{
+  display: none;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+
+  border: 1px solid var(--border);
+  background: rgba(15,13,11,.40);
+  color: var(--text);
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  z-index: 5;
+}
+
+/* su mobile lo mostriamo */
+@media (max-width: 640px){
+  .topbar-toggle{ display: grid; }
+
+  /* transizione */
+  .topbar .controls{
+    transition: max-height .25s ease, opacity .2s ease, margin-top .2s ease;
+    overflow: hidden;
+    max-height: 420px; /* abbastanza per contenere i campi */
+    opacity: 1;
+  }
+
+  /* stato collassato: lascia solo titolo + toggle */
+  .topbar.is-collapsed .controls{
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+  }
+
+  /* un pelo di padding in meno quando collassi */
+  .topbar.is-collapsed{
+    padding-bottom: 10px;
+  }
+}
+
 
