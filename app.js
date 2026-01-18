@@ -382,11 +382,10 @@ function buildLegend(){
   legendControl.addTo(map);
 
   // Popola voci legenda con conteggi
-  const listEl = document.getElementById("legendList");
-  if (!listEl) {
-    console.warn("legendList non trovato: salto popolamento legenda.");
-               } else {
-
+const listEl = document.getElementById("legendList");
+if (!listEl) {
+  console.warn("legendList non trovato: salto popolamento legenda.");
+} else {
   const counts = {};
   allPois.forEach(p => {
     counts[p.category] = (counts[p.category] || 0) + 1;
@@ -394,16 +393,22 @@ function buildLegend(){
 
   const cats = Array.from(new Set(allPois.map(p => p.category))).sort();
 
-  // Impedisce che clic sulla legenda trascini la mappa
+  // Impedisce che clic/scroll sulla legenda influenzi la mappa
   L.DomEvent.disableClickPropagation(listEl);
   L.DomEvent.disableScrollPropagation(listEl);
+
+  // pulisce lista prima di ripopolarla
+  listEl.innerHTML = "";
 
   cats.forEach(cat => {
     const item = document.createElement("div");
     item.className = "legend-item";
     item.dataset.cat = cat;
-  }
-    const iconUrl = (categoryIcons[cat]?.options?.iconUrl) || "icons/default.png";
+
+    const iconUrl =
+      (categoryIcons[cat] && categoryIcons[cat].options && categoryIcons[cat].options.iconUrl)
+        ? categoryIcons[cat].options.iconUrl
+        : "icons/default.png";
 
     item.innerHTML = `
       <img class="legend-icon" src="${iconUrl}" alt="">
@@ -413,11 +418,12 @@ function buildLegend(){
 
     item.addEventListener("click", () => {
       // toggle: se già selezionata, torna "all"
-      if (categoryFilter.value === cat) {
+      if (categoryFilter && categoryFilter.value === cat) {
         categoryFilter.value = "all";
-      } else {
+      } else if (categoryFilter) {
         categoryFilter.value = cat;
       }
+
       closeSidePanel();
       renderMarkers({ shouldZoom: true });
       updateLegendActiveState();
@@ -432,6 +438,7 @@ function buildLegend(){
 function updateLegendActiveState() {
   const listEl = document.getElementById("legendList");
   if (!listEl) return;
+
   const active = categoryFilter ? categoryFilter.value : "all";
   listEl.querySelectorAll(".legend-item").forEach(el => {
     el.classList.toggle("active", active !== "all" && el.dataset.cat === active);
@@ -577,6 +584,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
 
