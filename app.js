@@ -76,7 +76,14 @@ async function loadItinerari(){
             f.properties?.Nome ||
             f.properties?.title ||
             "Itinerario";
-          layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`);
+         const km = lineKmFromLayer(layer);
+const desc = f.properties?.desc || f.properties?.descrizione || "";
+
+layer.bindPopup(
+  `<strong>${escapeHtml(name)}</strong><br>🥾 ${km.toFixed(1)} km` +
+  (desc ? `<br><span style="opacity:.85">${escapeHtml(desc)}</span>` : "")
+);
+
         }
       }
     }).addTo(map);
@@ -84,6 +91,17 @@ async function loadItinerari(){
   } catch(err){
     console.warn(err);
   }
+}
+function lineKmFromLayer(layer){
+  const parts = layer.getLatLngs();
+  const segs = Array.isArray(parts[0]) ? parts : [parts];
+  let meters = 0;
+  for (const seg of segs){
+    for (let i = 1; i < seg.length; i++){
+      meters += map.distance(seg[i-1], seg[i]);
+    }
+  }
+  return meters / 1000;
 }
 
 loadItinerari();
@@ -607,3 +625,4 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
