@@ -9,9 +9,6 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// Pane sopra i marker per itinerari + pericoli
-map.createPane("routesPane");
-map.getPane("routesPane").style.zIndex = 650; // markerPane è 600
 
 // ===== 2) Stato =====
 let allPois = [];
@@ -616,3 +613,4 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
