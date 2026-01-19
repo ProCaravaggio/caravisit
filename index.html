@@ -23,20 +23,27 @@
   <button id="toggleTopbar" class="topbar-toggle" type="button"
           aria-expanded="true" aria-label="Comprimi pannello">▾</button>
 
-  <div class="controls">
-    <button id="toggleCats" class="ghost-btn" type="button" aria-haspopup="dialog" aria-controls="catsDrawer">Categorie</button>
-    <button id="toggleNearby" class="ghost-btn" type="button" aria-haspopup="dialog" aria-controls="nearbyDrawer">Vicino a me</button>
-    <button id="toggleFavs" class="ghost-btn" type="button" aria-haspopup="dialog" aria-controls="favsDrawer">Preferiti</button>
+<div class="controls">
+  <div class="btn-row" role="group" aria-label="Pannelli">
+    <button id="toggleCats" class="ghost-btn" type="button">Categorie</button>
+    <button id="toggleNearby" class="ghost-btn" type="button">Vicino a me</button>
+    <button id="toggleFavs" class="ghost-btn" type="button">Preferiti</button>
+  </div>
 
-    <label class="field search-field">
-      <input id="searchInput" placeholder="Cerca: castello, santuario, porta, museo..." aria-label="Cerca punti di interesse" />
-      <button id="clearSearch" class="search-clear" type="button" aria-label="Cancella ricerca" title="Cancella ricerca">✕</button>
+  <div class="search-row">
+    <label class="field grow">
+      <div class="search-wrap">
+        <input id="searchInput" placeholder="Cerca: castello, santuario, porta, museo..." />
+        <button id="clearSearch" class="clear-search" type="button" aria-label="Svuota ricerca">✕</button>
+      </div>
     </label>
 
     <div class="actions">
       <button id="locateBtn" class="btn-primary" type="button">Dove sono io?</button>
     </div>
   </div>
+</div>
+
 </header>
 
 <main class="layout">
@@ -98,3 +105,4 @@
 
 </body>
 </html>
+
