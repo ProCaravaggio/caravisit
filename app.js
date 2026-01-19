@@ -307,6 +307,10 @@ let userMarker = null;
 
 let activeCategory = "all";
 
+// ===== Livelli (default: solo luoghi da vedere) =====
+let activeTypes = new Set(["see"]); // see | stories | hidden | lost
+
+
 // ===== Preferiti =====
 const FAV_KEY = "caravaggio_favs_v1";
 let favSet = new Set();
@@ -434,8 +438,15 @@ const nearbyList = document.getElementById("nearbyList");
 
 function openNearby(){
   openDrawer(nearbyDrawer);
+
+  // se non ho posizione, la chiedo subito (così "Vicino a me" fa anche "Dove sono io")
+  if (!userLatLng) {
+    locateMe(); // aggiorna userLatLng e poi renderizza liste/marker
+  }
+
   renderNearbyList();
 }
+
 function closeNearbyDrawer(){ closeDrawer(nearbyDrawer); }
 
 if (toggleNearby) toggleNearby.addEventListener("click", () => {
@@ -726,12 +737,18 @@ function computeFiltered() {
   const q = searchInput ? searchInput.value.trim().toLowerCase() : "";
 
   return allPois.filter(p => {
+    const t = (p.type || "see");
+    const matchType = activeTypes.has(t);
+
     const matchCat = (activeCategory === "all") || (p.category === activeCategory);
+
     const hay = `${p.name} ${p.short || ""} ${p.long || ""}`.toLowerCase();
     const matchQ = !q || hay.includes(q);
-    return matchCat && matchQ;
+
+    return matchType && matchCat && matchQ;
   });
 }
+
 
 function zoomToVisibleMarkers() {
   if (markers.length === 0) return;
@@ -791,7 +808,7 @@ function buildLegend(){
   legendEl.innerHTML = "";
 
   const counts = {};
-  allPois.forEach(p => {
+  computeFiltered().forEach(p => {
     if (!p.category) return;
     counts[p.category] = (counts[p.category] || 0) + 1;
   });
@@ -801,6 +818,59 @@ function buildLegend(){
   L.DomEvent.disableClickPropagation(legendEl);
   L.DomEvent.disableScrollPropagation(legendEl);
 
+// Drawer livelli
+const toggleLevels = document.getElementById("toggleLevels");
+const levelsDrawer = document.getElementById("levelsDrawer");
+const closeLevels = document.getElementById("closeLevels");
+const levelsList = document.getElementById("levelsList");
+
+function openLevels(){ openDrawer(levelsDrawer); syncLevelsUI(); }
+function closeLevelsDrawer(){ closeDrawer(levelsDrawer); }
+
+if (toggleLevels) toggleLevels.addEventListener("click", () => {
+  if (!levelsDrawer) return;
+  levelsDrawer.classList.contains("hidden") ? openLevels() : closeLevelsDrawer();
+});
+if (closeLevels) closeLevels.addEventListener("click", closeLevelsDrawer);
+
+function setLevel(mode){
+  // "all" = tutti, altrimenti singolo livello
+  if (mode === "all") activeTypes = new Set(["see","stories","hidden","lost"]);
+  else activeTypes = new Set([mode]);
+
+  // opzionale ma consigliato: se la categoria selezionata non ha POI nel nuovo livello, torna a "all"
+  activeCategory = "all";
+
+  closeLevelsDrawer();
+  closeSidePanel();
+
+  buildLegend();                 // legenda categorie aggiornata (se vuoi che segua i livelli)
+  renderMarkers({ shouldZoom: true });
+
+  if (nearbyDrawer && !nearbyDrawer.classList.contains("hidden")) renderNearbyList();
+  if (favsDrawer && !favsDrawer.classList.contains("hidden")) renderFavsList();
+}
+
+function syncLevelsUI(){
+  if (!levelsList) return;
+  const chips = Array.from(levelsList.querySelectorAll(".level-chip"));
+
+  const isAll = ["see","stories","hidden","lost"].every(x => activeTypes.has(x));
+  chips.forEach(ch => {
+    const lv = ch.dataset.level;
+    ch.classList.toggle("active", (lv === "all" && isAll) || (lv !== "all" && !isAll && activeTypes.has(lv)));
+  });
+}
+
+if (levelsList){
+  levelsList.addEventListener("click", (e) => {
+    const btn = e.target.closest(".level-chip");
+    if (!btn) return;
+    setLevel(btn.dataset.level);
+  });
+}
+
+  
   cats.forEach(cat => {
     const row = document.createElement("div");
     row.className = "legend-item";
@@ -1197,6 +1267,7 @@ document.addEventListener("keydown", (e) => {
 let activeTypes = ["see"]; // default
 
 const visible = allPois.filter(p => activeTypes.includes(p.type));
+
 
 
 
