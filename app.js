@@ -591,24 +591,46 @@ function openPanel(p, distancePretty){
   const directionsUrl = googleMapsDirectionsUrl(p);
   const fav = isFav(p);
 
-  panelContent.innerHTML = `
-    <div class="panel-title">${escapeHtml(p.name)}</div>
-    <div class="badge">${escapeHtml(p.category)}</div>
+ const directionsUrl = googleMapsDirectionsUrl(p);
+const fav = isFav(p);
 
-    ${sliderHtml}
+panelContent.innerHTML = `
+  <div class="panel-title">${escapeHtml(p.name)}</div>
+  <div class="badge">${escapeHtml(p.category)}</div>
 
-    <div class="panel-actions">
-      <a class="btn-primary" href="${directionsUrl}" target="_blank" rel="noopener">Apri Google Maps</a>
-      <button class="btn-ghost" type="button" data-fav-act="toggle" aria-pressed="${fav ? "true":"false"}">
-        ${fav ? "★ Salvato" : "☆ Salva"}
-      </button>
-      <button class="btn-ghost" type="button" data-share-act="copy">Condividi link</button>
-    </div>
+  ${sliderHtml}
 
-    <div class="panel-text">${escapeHtml(p.long || p.short || "")}</div>
+  <div class="panel-actions">
+    <a class="btn-primary" href="${directionsUrl}" target="_blank" rel="noopener">Apri Google Maps</a>
 
-    ${distancePretty ? `<div class="panel-distance">📍 Distanza: <strong>${escapeHtml(distancePretty)}</strong></div>` : ""}
-  `;
+    <button class="icon-btn" type="button" data-fav-act="toggle"
+      aria-label="${fav ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}"
+      aria-pressed="${fav ? "true":"false"}">
+      ${fav ? "★" : "☆"}
+    </button>
+
+    <button class="icon-btn" type="button" data-share-act="copy" aria-label="Copia link">
+      🔗
+    </button>
+  </div>
+
+  <div class="panel-text">${escapeHtml(p.long || p.short || "")}</div>
+
+  ${distancePretty ? `<div class="panel-distance">📍 Distanza: <strong>${escapeHtml(distancePretty)}</strong></div>` : ""}
+`;
+  const favBtn = panelContent.querySelector('[data-fav-act="toggle"]');
+if (favBtn){
+  favBtn.addEventListener("click", () => {
+    const nowFav = toggleFav(p);
+    favBtn.textContent = nowFav ? "★" : "☆";
+    favBtn.setAttribute("aria-pressed", nowFav ? "true" : "false");
+    favBtn.setAttribute("aria-label", nowFav ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti");
+
+    if (favsDrawer && !favsDrawer.classList.contains("hidden")) renderFavsList();
+    if (nearbyDrawer && !nearbyDrawer.classList.contains("hidden")) renderNearbyList();
+  });
+}
+
 
   sidePanel.classList.remove("hidden");
   sidePanel.setAttribute("aria-hidden", "false");
@@ -846,6 +868,22 @@ function poiCardHtml(p){
     </div>
   `;
 }
+function favCardHtml(p){
+  const d = getPrettyDistance(p);
+  const fav = isFav(p);
+
+  return `
+    <div class="poi-card poi-card--fav" data-poi="${escapeHtml(poiId(p))}">
+      <div class="poi-top">
+        <div class="t">${escapeHtml(p.name)}</div>
+        <button class="fav-mini" type="button"
+          aria-label="${fav ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}"
+          aria-pressed="${fav ? "true":"false"}">${fav ? "★" : "☆"}</button>
+      </div>
+      ${d ? `<div class="s">${escapeHtml(d)}</div>` : ""}
+    </div>
+  `;
+}
 
 function bindPoiCardActions(container){
   if (!container) return;
@@ -921,7 +959,7 @@ function renderFavsList(){
     sorted.sort((a,b) => String(a.name).localeCompare(String(b.name), "it"));
   }
 
-  favsList.innerHTML = sorted.map(p => poiCardHtml(p)).join("");
+  favsList.innerHTML = sorted.map(p => favCardHtml(p)).join("");
   bindPoiCardActions(favsList);
 }
 
@@ -1172,3 +1210,4 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
