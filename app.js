@@ -591,46 +591,31 @@ function openPanel(p, distancePretty){
   const directionsUrl = googleMapsDirectionsUrl(p);
   const fav = isFav(p);
 
- const directionsUrl = googleMapsDirectionsUrl(p);
-const fav = isFav(p);
+   const directionsUrl = googleMapsDirectionsUrl(p);
+  const fav = isFav(p);
 
-panelContent.innerHTML = `
-  <div class="panel-title">${escapeHtml(p.name)}</div>
-  <div class="badge">${escapeHtml(p.category)}</div>
+  panelContent.innerHTML = `
+    <div class="panel-title">${escapeHtml(p.name)}</div>
+    <div class="badge">${escapeHtml(p.category)}</div>
 
-  ${sliderHtml}
+    ${sliderHtml}
 
-  <div class="panel-actions">
-    <a class="btn-primary" href="${directionsUrl}" target="_blank" rel="noopener">Apri Google Maps</a>
+    <div class="panel-actions">
+      <a class="btn-primary" href="${directionsUrl}" target="_blank" rel="noopener">Apri Google Maps</a>
 
-    <button class="icon-btn" type="button" data-fav-act="toggle"
-      aria-label="${fav ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}"
-      aria-pressed="${fav ? "true":"false"}">
-      ${fav ? "★" : "☆"}
-    </button>
+      <button class="icon-btn" type="button" data-fav-act="toggle"
+        aria-label="${fav ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}"
+        aria-pressed="${fav ? "true":"false"}">
+        ${fav ? "★" : "☆"}
+      </button>
 
-    <button class="icon-btn" type="button" data-share-act="copy" aria-label="Copia link">
-      🔗
-    </button>
-  </div>
+      <button class="icon-btn" type="button" data-share-act="copy" aria-label="Copia link">🔗</button>
+    </div>
 
-  <div class="panel-text">${escapeHtml(p.long || p.short || "")}</div>
+    <div class="panel-text">${escapeHtml(p.long || p.short || "")}</div>
 
-  ${distancePretty ? `<div class="panel-distance">📍 Distanza: <strong>${escapeHtml(distancePretty)}</strong></div>` : ""}
-`;
-  const favBtn = panelContent.querySelector('[data-fav-act="toggle"]');
-if (favBtn){
-  favBtn.addEventListener("click", () => {
-    const nowFav = toggleFav(p);
-    favBtn.textContent = nowFav ? "★" : "☆";
-    favBtn.setAttribute("aria-pressed", nowFav ? "true" : "false");
-    favBtn.setAttribute("aria-label", nowFav ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti");
-
-    if (favsDrawer && !favsDrawer.classList.contains("hidden")) renderFavsList();
-    if (nearbyDrawer && !nearbyDrawer.classList.contains("hidden")) renderNearbyList();
-  });
-}
-
+    ${distancePretty ? `<div class="panel-distance">📍 Distanza: <strong>${escapeHtml(distancePretty)}</strong></div>` : ""}
+  `;
 
   sidePanel.classList.remove("hidden");
   sidePanel.setAttribute("aria-hidden", "false");
@@ -639,13 +624,14 @@ if (favBtn){
   sidePanel.classList.remove("anim-in");
   requestAnimationFrame(() => sidePanel.classList.add("anim-in"));
 
-  // bottoni azione
   const favBtn = panelContent.querySelector('[data-fav-act="toggle"]');
   if (favBtn){
     favBtn.addEventListener("click", () => {
       const nowFav = toggleFav(p);
-      favBtn.textContent = nowFav ? "★ Salvato" : "☆ Salva";
+      favBtn.textContent = nowFav ? "★" : "☆";
       favBtn.setAttribute("aria-pressed", nowFav ? "true" : "false");
+      favBtn.setAttribute("aria-label", nowFav ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti");
+
       if (favsDrawer && !favsDrawer.classList.contains("hidden")) renderFavsList();
       if (nearbyDrawer && !nearbyDrawer.classList.contains("hidden")) renderNearbyList();
     });
@@ -655,6 +641,7 @@ if (favBtn){
   if (shareBtn){
     shareBtn.addEventListener("click", () => copyLinkForPoi(p));
   }
+
 
   setupSliderAndLightbox(imgs, p.name);
   setPoiUrlParam(p);
@@ -1210,4 +1197,5 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
