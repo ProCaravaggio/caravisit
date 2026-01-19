@@ -25,10 +25,22 @@
 
 <div class="controls">
   <div class="btn-row" role="group" aria-label="Pannelli">
-    <button id="toggleCats" class="ghost-btn" type="button">Categorie</button>
-    <button id="toggleNearby" class="ghost-btn" type="button">Vicino a me</button>
-    <button id="toggleFavs" class="ghost-btn" type="button">Preferiti</button>
-  </div>
+  <button id="toggleCats" class="ghost-btn" type="button">Categorie</button>
+
+  <button id="toggleLevels" class="ghost-btn" type="button"
+          aria-haspopup="dialog" aria-controls="levelsDrawer">
+    Livelli
+  </button>
+
+  <button id="toggleNearby" class="ghost-btn" type="button">
+    Vicino a me
+  </button>
+
+  <button id="toggleFavs" class="ghost-btn ghost-btn--star" type="button" aria-label="Preferiti">
+    ★
+  </button>
+</div>
+
 
   <div class="search-row">
     <label class="field grow">
@@ -86,6 +98,20 @@
   </div>
   <div id="legend" class="legend"></div>
 </div>
+<div id="levelsDrawer" class="cats-drawer hidden" aria-hidden="true" role="dialog" aria-label="Livelli">
+  <div class="cats-drawer-head">
+    <strong>Livelli</strong>
+    <button id="closeLevels" class="close-btn" type="button" aria-label="Chiudi">✕</button>
+  </div>
+
+  <div class="levels-list" id="levelsList">
+    <button type="button" class="level-chip" data-level="all">Tutti</button>
+    <button type="button" class="level-chip" data-level="see">🏛 Luoghi da vedere</button>
+    <button type="button" class="level-chip" data-level="stories">📜 Storie e leggende</button>
+    <button type="button" class="level-chip" data-level="hidden">✨ Tesori nascosti</button>
+    <button type="button" class="level-chip" data-level="lost">🕰 Luoghi scomparsi</button>
+  </div>
+</div>
 
 <div id="nearbyDrawer" class="cats-drawer hidden" aria-hidden="true" role="dialog" aria-label="Cosa c’è qui vicino">
   <div class="cats-drawer-head">
@@ -105,4 +131,5 @@
 
 </body>
 </html>
+
 
