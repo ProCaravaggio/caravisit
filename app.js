@@ -172,7 +172,6 @@ function startTracking(){
 
       if (lastLatLng){
         const d = lastLatLng.distanceTo(cur);
-
         // ignora jitter sotto 10m
         if (d >= 10) trackMeters += d;
       }
@@ -306,12 +305,59 @@ let markers = [];
 let userLatLng = null;
 let userMarker = null;
 
+let activeCategory = "all";
+
+// ===== Preferiti =====
+const FAV_KEY = "caravaggio_favs_v1";
+let favSet = new Set();
+
+function loadFavs(){
+  try{
+    const raw = localStorage.getItem(FAV_KEY);
+    if (!raw) return;
+    const arr = JSON.parse(raw);
+    if (Array.isArray(arr)) favSet = new Set(arr);
+  } catch {}
+}
+function saveFavs(){
+  try{
+    localStorage.setItem(FAV_KEY, JSON.stringify([...favSet]));
+  } catch {}
+}
+
+function slugify(s){
+  return String(s || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
+function poiId(p){
+  if (!p) return "";
+  if (p.id) return String(p.id);
+  const base = slugify(p.name);
+  const lat = Number(p.lat).toFixed(5);
+  const lon = Number(p.lon).toFixed(5);
+  return `${base}-${lat}-${lon}`;
+}
+
+function isFav(p){ return favSet.has(poiId(p)); }
+
+function toggleFav(p){
+  const id = poiId(p);
+  if (!id) return false;
+  if (favSet.has(id)) favSet.delete(id);
+  else favSet.add(id);
+  saveFavs();
+  return favSet.has(id);
+}
+
 // ===== 3) UI =====
-const categoryFilter = document.getElementById("categoryFilter");
 const searchInput = document.getElementById("searchInput");
+const clearSearchBtn = document.getElementById("clearSearch");
 const locateBtn = document.getElementById("locateBtn");
-const resetBtn = document.getElementById("resetBtn");
-const resultsCount = document.getElementById("resultsCount");
 
 const sidePanel = document.getElementById("sidePanel");
 const closePanel = document.getElementById("closePanel");
@@ -350,28 +396,71 @@ if (topbarToggle){
   });
 }
 
+// ===== Drawer helper (animazione leggera) =====
+function openDrawer(el){
+  if (!el) return;
+  el.classList.remove("hidden");
+  el.setAttribute("aria-hidden","false");
+  el.classList.remove("anim-in");
+  requestAnimationFrame(() => el.classList.add("anim-in"));
+}
+function closeDrawer(el){
+  if (!el) return;
+  el.classList.add("hidden");
+  el.setAttribute("aria-hidden","true");
+  el.classList.remove("anim-in");
+}
+
 // Drawer categorie
 const toggleCats = document.getElementById("toggleCats");
 const catsDrawer = document.getElementById("catsDrawer");
 const closeCats = document.getElementById("closeCats");
 const legendEl = document.getElementById("legend");
 
-function openCats(){
-  if (!catsDrawer) return;
-  catsDrawer.classList.remove("hidden");
-  catsDrawer.setAttribute("aria-hidden","false");
-}
-function closeCatsDrawer(){
-  if (!catsDrawer) return;
-  catsDrawer.classList.add("hidden");
-  catsDrawer.setAttribute("aria-hidden","true");
-}
+function openCats(){ openDrawer(catsDrawer); }
+function closeCatsDrawer(){ closeDrawer(catsDrawer); }
 
 if (toggleCats) toggleCats.addEventListener("click", () => {
   if (!catsDrawer) return;
   catsDrawer.classList.contains("hidden") ? openCats() : closeCatsDrawer();
 });
 if (closeCats) closeCats.addEventListener("click", closeCatsDrawer);
+
+// Drawer vicini
+const toggleNearby = document.getElementById("toggleNearby");
+const nearbyDrawer = document.getElementById("nearbyDrawer");
+const closeNearby = document.getElementById("closeNearby");
+const nearbyList = document.getElementById("nearbyList");
+
+function openNearby(){
+  openDrawer(nearbyDrawer);
+  renderNearbyList();
+}
+function closeNearbyDrawer(){ closeDrawer(nearbyDrawer); }
+
+if (toggleNearby) toggleNearby.addEventListener("click", () => {
+  if (!nearbyDrawer) return;
+  nearbyDrawer.classList.contains("hidden") ? openNearby() : closeNearbyDrawer();
+});
+if (closeNearby) closeNearby.addEventListener("click", closeNearbyDrawer);
+
+// Drawer preferiti
+const toggleFavs = document.getElementById("toggleFavs");
+const favsDrawer = document.getElementById("favsDrawer");
+const closeFavs = document.getElementById("closeFavs");
+const favsList = document.getElementById("favsList");
+
+function openFavs(){
+  openDrawer(favsDrawer);
+  renderFavsList();
+}
+function closeFavsDrawer(){ closeDrawer(favsDrawer); }
+
+if (toggleFavs) toggleFavs.addEventListener("click", () => {
+  if (!favsDrawer) return;
+  favsDrawer.classList.contains("hidden") ? openFavs() : closeFavsDrawer();
+});
+if (closeFavs) closeFavs.addEventListener("click", closeFavsDrawer);
 
 // ===== 4) Icone =====
 function makeIcon(url) {
@@ -416,9 +505,14 @@ function truncate(str, max = 220){
   return s.slice(0, max).trimEnd() + "…";
 }
 
+function distanceMetersTo(p){
+  if (!userLatLng) return null;
+  return userLatLng.distanceTo(L.latLng(p.lat, p.lon));
+}
+
 function getPrettyDistance(p){
-  if (!userLatLng) return "";
-  const meters = userLatLng.distanceTo(L.latLng(p.lat, p.lon));
+  const meters = distanceMetersTo(p);
+  if (meters == null) return "";
   return meters < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(1)} km`;
 }
 
@@ -433,6 +527,39 @@ function googleMapsDirectionsUrl(p){
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dest)}`;
 }
 
+// deep-link: set / clear parametro in URL
+function setPoiUrlParam(p){
+  const id = poiId(p);
+  if (!id) return;
+  const url = new URL(window.location.href);
+  url.searchParams.set("poi", id);
+  history.replaceState({}, "", url.toString());
+}
+function clearPoiUrlParam(){
+  const url = new URL(window.location.href);
+  url.searchParams.delete("poi");
+  history.replaceState({}, "", url.toString());
+}
+
+async function copyLinkForPoi(p){
+  const id = poiId(p);
+  if (!id) return;
+  const url = new URL(window.location.href);
+  url.searchParams.set("poi", id);
+  const text = url.toString();
+
+  try{
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(text);
+      alert("Link copiato negli appunti.");
+    } else {
+      prompt("Copia questo link:", text);
+    }
+  } catch {
+    prompt("Copia questo link:", text);
+  }
+}
+
 // ===== 6) Side panel + Slider =====
 function openPanel(p, distancePretty){
   if (!sidePanel || !panelContent) return;
@@ -440,7 +567,6 @@ function openPanel(p, distancePretty){
   if (window.matchMedia("(max-width: 640px)").matches) setTopbarCollapsed(true);
 
   const imgs = Array.isArray(p.imgs) ? p.imgs : (p.img ? [p.img] : []);
-
   const sliderHtml = imgs.length
     ? `
       <div class="slider" data-slider>
@@ -463,6 +589,7 @@ function openPanel(p, distancePretty){
     : "";
 
   const directionsUrl = googleMapsDirectionsUrl(p);
+  const fav = isFav(p);
 
   panelContent.innerHTML = `
     <div class="panel-title">${escapeHtml(p.name)}</div>
@@ -472,29 +599,63 @@ function openPanel(p, distancePretty){
 
     <div class="panel-actions">
       <a class="btn-primary" href="${directionsUrl}" target="_blank" rel="noopener">Apri Google Maps</a>
+      <button class="btn-ghost" type="button" data-fav-act="toggle" aria-pressed="${fav ? "true":"false"}">
+        ${fav ? "★ Salvato" : "☆ Salva"}
+      </button>
+      <button class="btn-ghost" type="button" data-share-act="copy">Condividi link</button>
     </div>
 
     <div class="panel-text">${escapeHtml(p.long || p.short || "")}</div>
 
-    <div class="panel-meta">
-      ${distancePretty ? `📍 Distanza: <strong>${escapeHtml(distancePretty)}</strong><br>` : ""}
-      Lat: ${Number(p.lat).toFixed(6)} · Lon: ${Number(p.lon).toFixed(6)}
-    </div>
+    ${distancePretty ? `<div class="panel-distance">📍 Distanza: <strong>${escapeHtml(distancePretty)}</strong></div>` : ""}
   `;
 
   sidePanel.classList.remove("hidden");
+  sidePanel.setAttribute("aria-hidden", "false");
+
+  // animazione leggera
+  sidePanel.classList.remove("anim-in");
+  requestAnimationFrame(() => sidePanel.classList.add("anim-in"));
+
+  // bottoni azione
+  const favBtn = panelContent.querySelector('[data-fav-act="toggle"]');
+  if (favBtn){
+    favBtn.addEventListener("click", () => {
+      const nowFav = toggleFav(p);
+      favBtn.textContent = nowFav ? "★ Salvato" : "☆ Salva";
+      favBtn.setAttribute("aria-pressed", nowFav ? "true" : "false");
+      if (favsDrawer && !favsDrawer.classList.contains("hidden")) renderFavsList();
+      if (nearbyDrawer && !nearbyDrawer.classList.contains("hidden")) renderNearbyList();
+    });
+  }
+
+  const shareBtn = panelContent.querySelector('[data-share-act="copy"]');
+  if (shareBtn){
+    shareBtn.addEventListener("click", () => copyLinkForPoi(p));
+  }
+
   setupSliderAndLightbox(imgs, p.name);
+  setPoiUrlParam(p);
 }
 
 function closeSidePanel(){
   if (!sidePanel) return;
   sidePanel.classList.add("hidden");
+  sidePanel.setAttribute("aria-hidden", "true");
+  clearPoiUrlParam();
 }
 
 if (closePanel) closePanel.addEventListener("click", closeSidePanel);
 
+// ESC chiude pannello e drawer (accessibilità)
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeSidePanel();
+  if (e.key !== "Escape") return;
+  // se lightbox aperto, gestisce lui (vedi sotto)
+  if (lightbox && !lightbox.classList.contains("hidden")) return;
+  closeSidePanel();
+  closeCatsDrawer();
+  closeNearbyDrawer();
+  closeFavsDrawer();
 });
 
 // Slider behavior (scroll-snap + pallini + frecce + click immagine)
@@ -557,20 +718,14 @@ function clearMarkers() {
 }
 
 function computeFiltered() {
-  const cat = categoryFilter ? categoryFilter.value : "all";
   const q = searchInput ? searchInput.value.trim().toLowerCase() : "";
 
   return allPois.filter(p => {
-    const matchCat = (cat === "all") || (p.category === cat);
+    const matchCat = (activeCategory === "all") || (p.category === activeCategory);
     const hay = `${p.name} ${p.short || ""} ${p.long || ""}`.toLowerCase();
     const matchQ = !q || hay.includes(q);
     return matchCat && matchQ;
   });
-}
-
-function updateResultsCount(n){
-  if (!resultsCount) return;
-  resultsCount.textContent = `${n} ${n === 1 ? "risultato" : "risultati"}`;
 }
 
 function zoomToVisibleMarkers() {
@@ -589,20 +744,14 @@ function renderMarkers({ shouldZoom = false } = {}) {
   clearMarkers();
 
   const filtered = computeFiltered();
-  updateResultsCount(filtered.length);
 
   filtered.forEach(p => {
     const pretty = getPrettyDistance(p);
     const icon = categoryIcons[p.category] || defaultIcon;
 
     const m = L.marker([p.lat, p.lon], { icon }).addTo(map);
-
-    // salva POI nel marker (serve per modalità percorso)
     m.__poi = p;
-
-    // click = pannello
     m.on("click", () => openPanel(p, pretty));
-
     markers.push(m);
   });
 
@@ -618,25 +767,17 @@ function renderMarkers({ shouldZoom = false } = {}) {
       m.setOpacity(near ? 1 : 0.28);
     });
   }
+
+  // aggiorna liste se aperte
+  if (nearbyDrawer && !nearbyDrawer.classList.contains("hidden")) renderNearbyList();
+  if (favsDrawer && !favsDrawer.classList.contains("hidden")) renderFavsList();
 }
 
-// ===== 8) Categorie + legenda (drawer) =====
-function populateCategories(pois) {
-  if (!categoryFilter) return;
-  const cats = Array.from(new Set(pois.map(p => p.category))).sort((a,b) => a.localeCompare(b, "it"));
-  cats.forEach(c => {
-    const opt = document.createElement("option");
-    opt.value = c;
-    opt.textContent = c;
-    categoryFilter.appendChild(opt);
-  });
-}
-
+// ===== 8) Legenda categorie (drawer) =====
 function updateLegendActiveState(){
   if (!legendEl) return;
-  const active = categoryFilter ? categoryFilter.value : "all";
   legendEl.querySelectorAll(".legend-item").forEach(el => {
-    el.classList.toggle("active", active !== "all" && el.dataset.cat === active);
+    el.classList.toggle("active", activeCategory !== "all" && el.dataset.cat === activeCategory);
   });
 }
 
@@ -674,9 +815,7 @@ function buildLegend(){
     `;
 
     row.addEventListener("click", () => {
-      if (categoryFilter && categoryFilter.value === cat) categoryFilter.value = "all";
-      else if (categoryFilter) categoryFilter.value = cat;
-
+      activeCategory = (activeCategory === cat) ? "all" : cat;
       closeCatsDrawer();
       closeSidePanel();
       renderMarkers({ shouldZoom: true });
@@ -689,7 +828,104 @@ function buildLegend(){
   updateLegendActiveState();
 }
 
-// ===== 9) Geolocalizzazione =====
+// ===== 9) Vicino a me =====
+function poiCardHtml(p){
+  const d = getPrettyDistance(p);
+  const fav = isFav(p);
+
+  return `
+    <div class="poi-card" data-poi="${escapeHtml(poiId(p))}">
+      <div class="poi-top">
+        <div class="t">${escapeHtml(p.name)}</div>
+        <button class="fav-mini" type="button"
+          aria-label="${fav ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}"
+          aria-pressed="${fav ? "true":"false"}">${fav ? "★" : "☆"}</button>
+      </div>
+      <div class="s">${escapeHtml(p.category || "")}${d ? ` • ${escapeHtml(d)}` : ""}</div>
+      <div class="m">${escapeHtml(truncate(p.short || p.long || "", 110))}</div>
+    </div>
+  `;
+}
+
+function bindPoiCardActions(container){
+  if (!container) return;
+
+  container.querySelectorAll(".poi-card").forEach(card => {
+    const id = card.dataset.poi;
+    const p = allPois.find(x => poiId(x) === id);
+    if (!p) return;
+
+    card.addEventListener("click", (e) => {
+      if (e.target && e.target.closest(".fav-mini")) return;
+      map.setView([p.lat, p.lon], 17, { animate:true });
+      openPanel(p, getPrettyDistance(p));
+    });
+
+    const favBtn = card.querySelector(".fav-mini");
+    if (favBtn){
+      favBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const nowFav = toggleFav(p);
+        favBtn.textContent = nowFav ? "★" : "☆";
+        favBtn.setAttribute("aria-pressed", nowFav ? "true" : "false");
+        favBtn.setAttribute("aria-label", nowFav ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti");
+        if (favsDrawer && !favsDrawer.classList.contains("hidden")) renderFavsList();
+      });
+    }
+  });
+}
+
+function renderNearbyList(){
+  if (!nearbyList) return;
+
+  if (!userLatLng){
+    nearbyList.innerHTML = `
+      <div class="hint-box">
+        Per vedere cosa c’è vicino, premi <strong>Dove sono io?</strong>.
+      </div>
+    `;
+    return;
+  }
+
+  const filtered = computeFiltered();
+  const withDist = filtered
+    .map(p => ({ p, d: distanceMetersTo(p) }))
+    .filter(x => x.d != null)
+    .sort((a,b) => a.d - b.d)
+    .slice(0, 20);
+
+  if (withDist.length === 0){
+    nearbyList.innerHTML = `<div class="hint-box">Nessun luogo trovato con i filtri attuali.</div>`;
+    return;
+  }
+
+  nearbyList.innerHTML = withDist.map(x => poiCardHtml(x.p)).join("");
+  bindPoiCardActions(nearbyList);
+}
+
+// ===== 10) Preferiti =====
+function renderFavsList(){
+  if (!favsList) return;
+
+  const favPois = allPois.filter(p => favSet.has(poiId(p)));
+
+  if (favPois.length === 0){
+    favsList.innerHTML = `<div class="hint-box">Nessun preferito salvato.</div>`;
+    return;
+  }
+
+  let sorted = [...favPois];
+  if (userLatLng){
+    sorted.sort((a,b) => (distanceMetersTo(a) ?? 1e12) - (distanceMetersTo(b) ?? 1e12));
+  } else {
+    sorted.sort((a,b) => String(a.name).localeCompare(String(b.name), "it"));
+  }
+
+  favsList.innerHTML = sorted.map(p => poiCardHtml(p)).join("");
+  bindPoiCardActions(favsList);
+}
+
+// ===== 11) Geolocalizzazione =====
 function locateMe() {
   if (!("geolocation" in navigator)) {
     alert("Geolocalizzazione non supportata dal browser.");
@@ -711,9 +947,10 @@ function locateMe() {
         fillOpacity: 0.8
       }).addTo(map);
 
-      userMarker.bindPopup("Sei qui").openPopup();
-
+      // niente popup "fastidioso": solo marker
       renderMarkers(); // aggiorna distanze
+      if (nearbyDrawer && !nearbyDrawer.classList.contains("hidden")) renderNearbyList();
+      if (favsDrawer && !favsDrawer.classList.contains("hidden")) renderFavsList();
     },
     () => alert("Posizione non disponibile (permesso negato o segnale debole).")
   );
@@ -721,42 +958,56 @@ function locateMe() {
 
 if (locateBtn) locateBtn.addEventListener("click", locateMe);
 
-// ===== 10) Reset =====
-function resetAll(){
-  if (categoryFilter) categoryFilter.value = "all";
-  if (searchInput) searchInput.value = "";
-  closeSidePanel();
-  clearRouteMode();
-  map.setView(DEFAULT_VIEW.center, DEFAULT_VIEW.zoom, { animate: true });
-  renderMarkers();
-  updateLegendActiveState();
+// ===== 12) Search: X interna =====
+function syncClearBtn(){
+  if (!clearSearchBtn || !searchInput) return;
+  const has = !!searchInput.value.trim();
+  clearSearchBtn.style.opacity = has ? "1" : "0";
+  clearSearchBtn.style.pointerEvents = has ? "auto" : "none";
+  clearSearchBtn.setAttribute("aria-hidden", has ? "false" : "true");
 }
 
-if (resetBtn) resetBtn.addEventListener("click", resetAll);
+if (searchInput){
+  searchInput.addEventListener("input", () => {
+    closeSidePanel();
+    renderMarkers();
+    updateLegendActiveState();
+    syncClearBtn();
+  });
+}
 
-// ===== 11) Init =====
+if (clearSearchBtn && searchInput){
+  clearSearchBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    syncClearBtn();
+    closeSidePanel();
+    renderMarkers({ shouldZoom: false });
+    updateLegendActiveState();
+    searchInput.focus();
+  });
+}
+
+syncClearBtn();
+
+// ===== 13) Init =====
 async function init() {
+  loadFavs();
+
   const res = await fetch("poi.json");
   allPois = await res.json();
 
-  populateCategories(allPois);
   buildLegend();
   renderMarkers();
 
-  if (categoryFilter) {
-    categoryFilter.addEventListener("change", () => {
-      closeSidePanel();
-      renderMarkers({ shouldZoom: true });
-      updateLegendActiveState();
-    });
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      closeSidePanel();
-      renderMarkers();
-      updateLegendActiveState();
-    });
+  // deep-link: ?poi=
+  const url = new URL(window.location.href);
+  const poiParam = url.searchParams.get("poi");
+  if (poiParam){
+    const p = allPois.find(x => poiId(x) === poiParam);
+    if (p){
+      map.setView([p.lat, p.lon], 17, { animate: false });
+      openPanel(p, getPrettyDistance(p));
+    }
   }
 
   // carica itinerari dopo tutto
@@ -815,43 +1066,37 @@ async function loadItinerari(){
         });
       },
 
-     onEachFeature: (f, layer) => {
-  const g = f.geometry?.type;
+      onEachFeature: (f, layer) => {
+        const g = f.geometry?.type;
 
-  // --- PUNTI PERICOLOSI ---
-  if (g === "Point") {
-    const name =
-      f.properties?.name ||
-      f.properties?.Nome ||
-      f.properties?.title ||
-      "Punto pericoloso";
+        if (g === "Point") {
+          const name =
+            f.properties?.name ||
+            f.properties?.Nome ||
+            f.properties?.title ||
+            "Punto pericoloso";
 
-    layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`);
-  }
+          // popup minimo (solo tap), non invasivo
+          layer.bindPopup(`<strong>${escapeHtml(name)}</strong>`, { autoPan: true });
+        }
 
-  // --- ITINERARI (LINEE) ---
-  if (g === "LineString" || g === "MultiLineString") {
-    const name =
-      f.properties?.name ||
-      f.properties?.Nome ||
-      f.properties?.title ||
-      "Itinerario";
+        if (g === "LineString" || g === "MultiLineString") {
+          const name =
+            f.properties?.name ||
+            f.properties?.Nome ||
+            f.properties?.title ||
+            "Itinerario";
 
-    const desc =
-      f.properties?.desc ||
-      f.properties?.descrizione ||
-      f.properties?.short ||
-      "";
+          const desc =
+            f.properties?.desc ||
+            f.properties?.descrizione ||
+            f.properties?.short ||
+            "";
 
-    // registra la linea per la modalità percorso
-    routePolylines.push(layer);
-
-    // click = modalità "segui percorso"
-    layer.on("click", () => applyRouteMode(layer, name, desc));
-  }
-}
-
-
+          routePolylines.push(layer);
+          layer.on("click", () => applyRouteMode(layer, name, desc));
+        }
+      }
     }).addTo(map);
 
   } catch(err){
@@ -927,9 +1172,3 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
-
-
-
-
-
-
