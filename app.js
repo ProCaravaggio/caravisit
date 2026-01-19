@@ -4,9 +4,9 @@ const DEFAULT_VIEW = { center: [45.497, 9.644], zoom: 15 };
 const map = L.map("map", { zoomControl: true })
   .setView(DEFAULT_VIEW.center, DEFAULT_VIEW.zoom);
 
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
   maxZoom: 19,
-  attribution: '&copy; OpenStreetMap contributors'
+  attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
 }).addTo(map);
 
 // ===== Pane itinerari (sotto ai marker) =====
@@ -1264,6 +1264,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
 
