@@ -373,6 +373,14 @@ function syncHeaderHeight(){
   if (!headerEl) return;
   document.documentElement.style.setProperty("--header-h", headerEl.offsetHeight + "px");
 }
+const footerEl = document.querySelector(".footer");
+function syncFooterHeight(){
+  if (!footerEl) return;
+  document.documentElement.style.setProperty("--footer-h", footerEl.offsetHeight + "px");
+}
+window.addEventListener("resize", syncFooterHeight);
+syncFooterHeight();
+
 window.addEventListener("resize", syncHeaderHeight);
 syncHeaderHeight();
 
@@ -1264,6 +1272,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
 
