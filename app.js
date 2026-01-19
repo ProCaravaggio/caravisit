@@ -544,7 +544,7 @@ const categoryIcons = {
   "Personaggi della storia": makeIcon("icons/personaggi.png"),
   "Storia": makeIcon("icons/storia.png"),
   "Tesori nascosti": makeIcon("icons/tesori.png"),
-  "Edifici": makeIcon("icons/pubblici.png"),
+  "Edifici": makeIcon("icons/edifici.png"),
   "Località": makeIcon("icons/localita.png"),
   "Luoghi": makeIcon("icons/quotidiano.png"),
   "Luoghi di oggi": makeIcon("icons/oggi.png"),
@@ -1264,6 +1264,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") lbSetIndex(lbIndex - 1);
   if (e.key === "ArrowRight") lbSetIndex(lbIndex + 1);
 });
+
 
 
 
