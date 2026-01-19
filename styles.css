@@ -9,6 +9,11 @@
   --accentHover: #A53A33;
   --shadow: 0 10px 30px rgba(0,0,0,.35);
   --shadow2: 0 8px 18px rgba(0,0,0,.22);
+
+  /* texture leggerissima (solo header + schede) */
+  --paper-noise: radial-gradient(circle at 20% 10%, rgba(242,233,220,.04), transparent 55%),
+                 radial-gradient(circle at 80% 30%, rgba(242,233,220,.03), transparent 55%),
+                 radial-gradient(circle at 30% 80%, rgba(0,0,0,.06), transparent 60%);
 }
 
 *{ box-sizing:border-box; }
@@ -24,18 +29,29 @@ body{
   overflow:hidden;
 }
 
+/* =========================
+   ACCESSIBILITA' (leggera)
+========================= */
+:focus-visible{
+  outline: 2px solid rgba(200,161,90,.75);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
 /* HEADER */
 .topbar{
   padding: 14px 16px;
-  background: linear-gradient(180deg, rgba(34,26,21,.96), rgba(34,26,21,.86));
+  background:
+    var(--paper-noise),
+    linear-gradient(180deg, rgba(34,26,21,.96), rgba(34,26,21,.86));
   border-bottom: 1px solid var(--border);
-
-  /* (3) shadow morbida + look “app” */
   position: relative;
   box-shadow: 0 10px 26px rgba(0,0,0,.35);
 }
 
-/* (2) un filo di aria/gradiente verso la mappa */
+/* aria/gradiente verso la mappa */
 .topbar::after{
   content:"";
   position:absolute;
@@ -72,6 +88,34 @@ body{
   font-size: 12px;
   color: var(--muted);
 }
+
+/* wrapper search per "X" interna */
+.search-wrap{
+  position: relative;
+  display:flex;
+  align-items:center;
+}
+.search-wrap input{
+  padding-right: 40px; /* spazio per X */
+}
+.clear-search{
+  position:absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(242,233,220,.14);
+  background: rgba(15,13,11,.35);
+  color: var(--text);
+  cursor: pointer;
+  display:grid;
+  place-items:center;
+  opacity: 0;
+  pointer-events: none;
+}
+.clear-search:hover{ filter: brightness(1.08); }
 
 .field select,
 .field input{
@@ -111,23 +155,17 @@ body{
 }
 .btn-ghost:hover{ filter: brightness(1.06); }
 
-.meta{
-  display:flex;
-  align-items:center;
-  margin-left:auto;
-}
-
-.pill{
-  display:inline-block;
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(15,13,11,.35);
+.ghost-btn{
+  background: transparent;
   color: var(--text);
-  font-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
 }
+.ghost-btn:hover{ filter: brightness(1.06); }
 
-/* (4) Bottone “Dove sono io?” più iconico */
+/* Bottone “Dove sono io?” più iconico */
 #locateBtn{
   position: relative;
   padding-left: 36px;
@@ -157,14 +195,18 @@ body{
   height:100%;
 }
 
-/* SIDEPANEL */
+/* =========================
+   SIDE PANEL (scheda POI)
+========================= */
 .side-panel{
   position:absolute;
   top: 14px;
   right: 14px;
   height: calc(100% - 28px);
   width: min(420px, 92vw);
-  background: var(--panel);
+  background:
+    var(--paper-noise),
+    var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: var(--shadow);
@@ -202,7 +244,7 @@ body{
   margin-top: 10px;
 }
 
-.panel-meta{
+.panel-distance{
   color: var(--muted);
   font-size: 13px;
   margin-top: 12px;
@@ -210,7 +252,7 @@ body{
   border-top: 1px solid var(--border);
 }
 
-/* (7) Animazione ingresso pannello (classe aggiunta via JS) */
+/* animazione ingresso pannello */
 @keyframes panelIn{
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -219,109 +261,26 @@ body{
   animation: panelIn .18s ease-out;
 }
 
-/* POPUP (Leaflet) */
-.leaflet-popup-content{
-  margin: 10px 12px;
-  min-width: 220px;
-}
-
-.popup-title{
-  font-weight: 800;
-  margin: 0 0 6px 0;
-  font-size: 14px;
-}
-
-.popup-badge{
-  display:inline-block;
-  font-size: 12px;
-  padding: 3px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(0,0,0,.12);
-  background: rgba(255,255,255,.75);
-  margin-bottom: 8px;
-}
-
-.popup-text{
-  margin: 0;
-  color: rgba(0,0,0,.78);
-  font-size: 13px;
-  line-height: 1.35;
-}
-
-.popup-meta{
-  margin-top: 8px;
-  font-size: 12px;
-  color: rgba(0,0,0,.65);
-}
-
-.popup-actions{
+/* Bottoni azioni nel pannello */
+.panel-actions{
   display:flex;
-  gap:8px;
-  margin-top: 10px;
+  gap:10px;
+  margin-top:12px;
+  flex-wrap:wrap;
 }
-
-.popup-btn{
-  display:inline-block;
-  padding: 7px 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(0,0,0,.14);
+.panel-actions a{
   text-decoration:none;
-  color: #111;
-  background: #fff;
-  font-size: 12px;
-}
-.popup-btn.primary{
-  background: #111;
-  color: #fff;
-  border-color: rgba(0,0,0,.25);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
 
-/* Fix “icone stirate” */
+/* Fix icone marker */
 .leaflet-marker-icon{ object-fit: contain; }
 
-/* FOOTER */
-.footer{
-  border-top: 1px solid var(--border);
-  background: rgba(34,26,21,.88);
-  padding: 10px 16px;
-}
-
-.footer-inner{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.footer-title{
-  font-weight: 700;
-  font-size: 12px;
-  color: var(--text);
-}
-
-.footer-text{
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.sep{ margin: 0 8px; opacity: .7; }
-
-/* (6) Footer più compatto su mobile */
-@media (max-width: 640px){
-  .footer{ padding: 8px 12px; }
-  .footer-title{ font-size: 11px; }
-  .footer-text{ font-size: 11px; line-height: 1.25; }
-}
-
-/* Drawer categorie */
-.ghost-btn{
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  cursor: pointer;
-}
-
+/* =========================
+   DRAWER (Categorie / Vicino / Preferiti)
+========================= */
 .cats-drawer{
   position: fixed;
   left: 12px;
@@ -330,14 +289,29 @@ body{
   max-height: calc(100vh - (var(--header-h, 120px) + 24px));
   overflow: auto;
 
-  background: rgba(34,26,21,.96);
+  background:
+    var(--paper-noise),
+    rgba(34,26,21,.96);
   border: 1px solid var(--border);
   box-shadow: 0 14px 40px rgba(0,0,0,.45);
   border-radius: 14px;
   z-index: 9998;
   padding: 12px;
+
+  transform: translateY(10px);
+  opacity: 0;
 }
 .cats-drawer.hidden{ display:none; }
+
+@keyframes drawerIn{
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.cats-drawer.anim-in{
+  animation: drawerIn .16s ease-out;
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .cats-drawer-head{
   display:flex;
@@ -347,7 +321,18 @@ body{
   margin-bottom: 10px;
 }
 
-/* Legenda (lista categorie nel drawer) */
+.close-btn{
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(242,233,220,.18);
+  background: rgba(15,13,11,.45);
+  color: var(--text);
+  cursor:pointer;
+}
+.close-btn:hover{ filter: brightness(1.07); }
+
+/* Legenda categorie */
 .legend{
   display: grid;
   gap: 10px;
@@ -396,7 +381,56 @@ body{
   font-variant-numeric: tabular-nums;
 }
 
-/* ===== Slider immagini nel pannello (scroll-snap) ===== */
+/* =========================
+   LISTE (Vicino a me / Preferiti)
+========================= */
+.hint-box{
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(58,44,34,.8);
+  background: rgba(15,13,11,.30);
+  color: var(--muted);
+  line-height: 1.35;
+  font-size: 13px;
+}
+
+.poi-card{
+  border: 1px solid rgba(58,44,34,.8);
+  background: rgba(15,13,11,.35);
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor:pointer;
+}
+.poi-card:hover{ filter: brightness(1.06); }
+
+.poi-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.poi-card .t{ font-weight:800; font-size:13px; }
+.poi-card .s{ color: var(--muted); font-size:12px; margin-top:4px; line-height:1.25; }
+.poi-card .m{ color: rgba(242,233,220,.85); font-size:12px; margin-top:6px; line-height:1.25; }
+
+.fav-mini{
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid rgba(242,233,220,.18);
+  background: rgba(15,13,11,.45);
+  color: var(--text);
+  cursor: pointer;
+  display:grid;
+  place-items:center;
+  flex: 0 0 auto;
+}
+.fav-mini:hover{ filter: brightness(1.08); }
+
+/* =========================
+   SLIDER immagini nel pannello
+========================= */
 .slider{
   margin-top: 12px;
   position: relative;
@@ -425,7 +459,7 @@ body{
   border: 1px solid rgba(58,44,34,.8);
   background: rgba(0,0,0,.15);
   position: relative;
-  opacity: 1; /* IMPORTANTISSIMO: niente trasparenza */
+  opacity: 1;
 }
 
 .slider-track .slide img{
@@ -457,7 +491,7 @@ body{
 .slider-btn.next{ right: 10px; }
 
 @media (max-width: 640px){
-  .slider-btn{ display: none; } /* su mobile swipe */
+  .slider-btn{ display: none; }
 }
 
 /* Pallini */
@@ -480,7 +514,9 @@ body{
   border-color: rgba(200,161,90,.9);
 }
 
-/* ===== Fullscreen overlay (Lightbox) ===== */
+/* =========================
+   FULLSCREEN overlay (Lightbox)
+========================= */
 .lightbox{
   position: fixed;
   inset: 0;
@@ -558,9 +594,45 @@ body{
   font-size: 12px;
 }
 
-/* Responsive */
+/* =========================
+   FOOTER
+========================= */
+.footer{
+  border-top: 1px solid var(--border);
+  background: rgba(34,26,21,.88);
+  padding: 10px 16px;
+}
+
+.footer-inner{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.footer-title{
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.footer-text{
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.sep{ margin: 0 8px; opacity: .7; }
+
+/* Footer compatto su mobile */
+@media (max-width: 640px){
+  .footer{ padding: 8px 12px; }
+  .footer-title{ font-size: 11px; }
+  .footer-text{ font-size: 11px; line-height: 1.25; }
+}
+
+/* =========================
+   Responsive
+========================= */
 @media (max-width: 720px){
-  .meta{ width: 100%; margin-left: 0; }
   .field select, .field input{ min-width: min(100%, 320px); }
   .side-panel{
     left: 14px;
@@ -569,28 +641,11 @@ body{
   }
 }
 
-/* ===== Bottoni azioni nel pannello ===== */
-.panel-actions{
-  display:flex;
-  gap:10px;
-  margin-top:12px;
-  flex-wrap:wrap;
-}
+/* =========================
+   Topbar collassabile (solo mobile)
+========================= */
+.topbar-toggle{ display:none; }
 
-.panel-actions a{
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* ===== Topbar collassabile (solo mobile) ===== */
-/* di default nascosto su desktop */
-.topbar-toggle{
-  display:none;
-}
-
-/* Mobile: toggle “figo” + rotazione (1) + transizione (7) */
 @media (max-width: 640px){
   .topbar-toggle{
     display: grid;
@@ -625,12 +680,10 @@ body{
   .topbar-toggle:hover{ filter: brightness(1.08); }
   .topbar-toggle:active{ transform: translateY(1px) scale(.98); }
 
-  /* freccia ruota quando collassi */
   .topbar.is-collapsed .topbar-toggle{
     transform: rotate(180deg);
   }
 
-  /* animazione collasso controlli */
   .topbar .controls{
     overflow: hidden;
     transition: max-height .25s ease, opacity .18s ease, margin-top .18s ease;
@@ -648,12 +701,10 @@ body{
     padding-bottom: 10px;
   }
 }
-/* =========================================================
-   ROUTE MODE UI (itinerari): Exit + Info + Tracking + Popup
-   (da incollare in fondo al tuo styles.css)
-========================================================= */
 
-/* Box “Esci percorso” (Leaflet control) */
+/* =========================================================
+   ROUTE MODE UI (itinerari): Exit + Info + Tracking
+========================================================= */
 .route-exit{
   background: rgba(34,26,21,.92);
   border: 1px solid rgba(242,233,220,.18);
@@ -678,7 +729,6 @@ body{
 .route-exit-btn:hover{ filter: brightness(1.07); }
 .route-exit-btn:active{ transform: translateY(1px); }
 
-/* Box info percorso (Leaflet control) */
 .route-info{
   margin-top: 10px;
   background: rgba(34,26,21,.92);
@@ -716,7 +766,6 @@ body{
   padding-top: 8px;
 }
 
-/* Box tracking (Leaflet control) */
 .track-box{
   background: rgba(34,26,21,.92);
   border: 1px solid rgba(242,233,220,.18);
@@ -760,41 +809,8 @@ body{
   opacity: .65;
 }
 
-/* Popup itinerari (quando tocchi una linea) */
-.route-popup{
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-}
-
-.route-popup-title{
-  font-weight: 900;
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-.route-popup-km{
-  font-size: 12.5px;
-  margin-bottom: 6px;
-  color: rgba(0,0,0,.78);
-}
-
-.route-popup-desc{
-  font-size: 12px;
-  color: rgba(0,0,0,.68);
-  line-height: 1.25;
-  margin-bottom: 8px;
-}
-
-.route-popup-hint{
-  font-size: 11px;
-  color: rgba(0,0,0,.55);
-  border-top: 1px solid rgba(0,0,0,.10);
-  padding-top: 8px;
-}
-
-/* Mobile: evita che i box coprano troppo */
 @media (max-width: 640px){
   .route-info, .track-box{
     max-width: 86vw;
   }
 }
-
