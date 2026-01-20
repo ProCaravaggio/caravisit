@@ -178,20 +178,7 @@ a:visited{
 }
 .ghost-btn:hover{ filter: brightness(1.06); }
 
-/* Bottone “Dove sono io?” più iconico */
-#locateBtn{
-  position: relative;
-  padding-left: 36px;
-}
-#locateBtn::before{
-  content: "📍";
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  opacity: .95;
-}
+
 #locateBtn:active{
   transform: translateY(1px);
 }
@@ -1037,6 +1024,7 @@ a:visited{
 .icon-btn:active{
   transform: scale(0.96);
 }
+
 
 
 
