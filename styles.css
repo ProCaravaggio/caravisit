@@ -1084,9 +1084,15 @@ a:visited{
    ========================= */
 @media (max-width: 640px){
 
-  /* Header più compatto (titolo + sottotitolo) */
+  /* evita sforamenti strani su iOS */
+  .topbar, .topbar *{ box-sizing: border-box; }
+
+  /* Header più compatto + angoli più arrotondati */
   .topbar{
     padding: 12px 14px 10px;
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
+    overflow: hidden;
   }
   .brand h1{ margin:0; font-size: 22px; line-height: 1.15; }
   .brand p{ margin: 4px 0 0; font-size: 13px; opacity: .85; }
@@ -1098,27 +1104,41 @@ a:visited{
     right: 12px;
     top: calc(var(--header-h) + 10px);
     z-index: 1200;
+
+    /* CENTRATORE: impedisce “slittamenti” */
+    max-width: 520px;
+    margin: 0 auto;
+
+    /* layout pulito */
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 10px;
+
     pointer-events: none; /* cliccabili solo i figli */
+    transform-origin: top center;
+    transition: opacity .22s ease, transform .22s ease;
   }
   .topbar .controls *{ pointer-events: auto; }
 
-  /* fila icone (i tuoi button.icon-btn) */
+  /* fila icone: GRIGLIA = sempre centrata e dentro */
   .topbar .btn-row{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 10px;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 0 0 10px;
+    width: 100%;
+    margin: 0;
+    align-items: start;
   }
 
-  /* pallini “vivi” */
+  /* pallini “vivi” - marroncini */
   .topbar .icon-btn{
-    flex: 1;
+    width: 100%;
     min-width: 0;
     height: 58px;
     padding: 8px 6px;
     border-radius: 18px;
-    background: rgba(25, 18, 14, .45); /* più trasparente */
+
+    background: rgba(54, 38, 28, .45); /* marroncino */
     border: 1px solid rgba(242,233,220,.14);
     box-shadow: 0 10px 22px rgba(0,0,0,.30);
     backdrop-filter: blur(10px);
@@ -1129,28 +1149,49 @@ a:visited{
     gap: 6px;
     text-align: center;
   }
+
+  /* icona dentro un “pallino” leggero, ma NON trasparente */
   .topbar .icon-btn .ico{
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+
+    background: rgba(242,233,220,.06);
+    border: 1px solid rgba(242,233,220,.12);
+
     line-height: 1;
-    font-size: 20px; /* simboli non trasparenti */
+    font-size: 20px;
     opacity: 1;
   }
+
   .topbar .icon-btn .lbl{
     font-size: 12px;
     line-height: 1.1;
-    opacity: 1;           /* testo non trasparente */
-    white-space: nowrap;  /* se vuoi evitare tagli strani */
+    opacity: 1;
+
+    /* così “Categorie” non tocca i bordi */
+    padding: 0 4px;
+
+    /* evita tagli brutti */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
   /* stato “primary” (Esplora) */
   .topbar .icon-btn.primary{
-    background: rgba(160, 40, 35, .70);
+    background: rgba(140, 45, 40, .72);
     border-color: rgba(255,255,255,.14);
   }
 
-  /* --- barra di ricerca: full width su mobile --- */
+  /* --- barra di ricerca: full width e centrata --- */
   .topbar .search-row{
     display: block;
     margin: 0;
+    width: 100%;
   }
   .topbar .search-row .field{
     display: block;
@@ -1158,15 +1199,15 @@ a:visited{
   }
   .topbar .search-wrap{
     width: 100%;
-    background: rgba(25,18,14,.35);
+    background: rgba(54, 38, 28, .36); /* marroncino, non grigio */
     border: 1px solid rgba(242,233,220,.14);
     border-radius: 18px;
     padding: 10px 12px;
     transition: background .18s ease, border-color .18s ease;
   }
   .topbar .search-wrap:focus-within{
-    background: rgba(25,18,14,.70); /* meno trasparente mentre scrivi */
-    border-color: rgba(242,233,220,.24);
+    background: rgba(54, 38, 28, .70);
+    border-color: rgba(200,161,90,.35);
   }
   .topbar #searchInput{
     width: 100%;
@@ -1176,33 +1217,34 @@ a:visited{
     outline: none;
   }
 
+  /* “Cerca:” più visibile */
+  .topbar #searchInput::placeholder{
+    color: rgba(242,233,220,.78);
+    opacity: 1;
+  }
+
   /* nascondo eventuale colonna azioni in search-row su mobile */
   .topbar .search-row .actions{ display:none; }
 
-  /* --- animazione mini “giù e poi su” quando si chiude --- */
-  .topbar .controls{
-    transform-origin: top center;
-    transition: opacity .22s ease, transform .22s ease;
-  }
+  /* --- animazione: più lenta quando sparisce (più “viva”) --- */
   body.ui-hidden .topbar .controls{
-    animation: floatHide .24s ease forwards;
+    animation: floatHide 420ms cubic-bezier(.2,.9,.2,1) forwards;
     pointer-events: none;
   }
   body:not(.ui-hidden) .topbar .controls{
-    animation: floatShow .22s ease;
+    animation: floatShow 220ms ease;
   }
 
   @keyframes floatHide{
     0%   { opacity: 1; transform: translateY(0); }
-    45%  { opacity: 1; transform: translateY(6px); }
-    100% { opacity: 0; transform: translateY(-10px); }
+    55%  { opacity: 1; transform: translateY(10px) scale(.99); } /* mini giù */
+    100% { opacity: 0; transform: translateY(-14px); }          /* poi su e sparisce */
   }
   @keyframes floatShow{
     0%   { opacity: 0; transform: translateY(-10px); }
     100% { opacity: 1; transform: translateY(0); }
   }
 
-  /* accessibilità: se l’utente chiede meno movimento, stop animazioni */
   @media (prefers-reduced-motion: reduce){
     .topbar .controls{ animation: none !important; transition: none !important; }
   }
