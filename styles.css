@@ -1314,6 +1314,10 @@ footer {
   width: 100%;
   z-index: 900;
 }
+.controls {
+  transform: translateX(-6px);
+}
+
 
 
 
