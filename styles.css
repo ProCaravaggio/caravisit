@@ -968,6 +968,33 @@ a:visited{
     gap: 8px;
   }
 }
+/* ===== Header mobile: riga bottoni simmetrica ===== */
+.btn-row{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+/* tutti i bottoni uguali (anche ⭐ e Vicino a me) */
+.btn-row .ghost-btn{
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 12px;
+}
+
+/* se la ⭐ è un bottone con solo icona, rendilo “pieno” come gli altri */
+.btn-row .ghost-btn.icon-only{
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* su schermi strettissimi vai a 2 colonne (evita wrap brutto) */
+@media (max-width: 380px){
+  .btn-row{ grid-template-columns: repeat(2, 1fr); }
+}
+
 
 
 
