@@ -1318,6 +1318,11 @@ footer {
   transform: translateX(-6px);
 }
 
+.btn-row.icon-bar,
+.search-row {
+  padding-left: 6px;
+}
+
 
 
 
