@@ -1255,3 +1255,17 @@ a:visited{
     .topbar .controls{ animation: none !important; transition: none !important; }
   }
 }
+@media (max-width: 640px){
+  body{
+    background: #1b1410;
+  }
+
+  .topbar{
+    background: linear-gradient(
+      to bottom,
+      rgba(27,20,16,1) 0%,
+      rgba(27,20,16,0.98) 70%,
+      rgba(27,20,16,0.0) 100%
+    );
+  }
+}
