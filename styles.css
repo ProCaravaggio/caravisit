@@ -29,6 +29,19 @@ body{
   overflow:hidden;
 }
 
+a{
+  color: #C8A15A;              /* oro caldo, coerente col tema */
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: underline;
+  filter: brightness(1.05);
+}
+a:visited{
+  color: #C8A15A;              /* niente viola */
+}
+
+
 /* =========================
    ACCESSIBILITA' (leggera)
 ========================= */
@@ -944,6 +957,7 @@ body{
   text-shadow: 0 0 6px rgba(0,0,0,.6);
   transform-origin: center;
 }
+
 
 
 
