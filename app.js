@@ -1,12 +1,8 @@
 // ===== 1) Mappa =====
 const DEFAULT_VIEW = { center: [45.497, 9.644], zoom: 15 };
 
-
-const map = L.map("map", { zoomControl: false })
+const map = L.map("map", { zoomControl: true })
   .setView(DEFAULT_VIEW.center, DEFAULT_VIEW.zoom);
-
-// Zoom in basso a sinistra (più comodo su mobile)
-L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
 L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
   maxZoom: 19,
@@ -1340,16 +1336,4 @@ document.addEventListener("keydown", (e) => {
 
 
 
-
-
-
-// Flag per animazioni CSS (evita animazioni al primo paint)
-window.addEventListener('DOMContentLoaded', () => {
-  document.documentElement.classList.add('ready');
-});
-
-// Segna che il layout è pronto (serve per animazioni CSS)
-window.addEventListener("DOMContentLoaded", () => {
-  document.documentElement.classList.add("ready");
-});
 
