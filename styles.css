@@ -1071,6 +1071,15 @@ a:visited{
     box-sizing: border-box;
   }
 }
+#openGuide{
+  position: relative;
+  z-index: 5;
+  touch-action: manipulation;
+}
+#openGuide *{
+  pointer-events: none; /* così il tap vale sempre sul bottone, non sullo span */
+}
+
 
 
 
