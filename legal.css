@@ -33,13 +33,25 @@ body.legal{
 }
 
 .legal-back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
   padding: 6px 10px;
   border-radius: 10px;
+
+  border: 1px solid var(--border);
+  background: rgba(15,13,11,.40);
+
+  color: var(--accent);
+  text-decoration: none;
+
   font-weight: 600;
   font-size: 13px;
 }
-
 .legal-back:hover{ filter: brightness(1.08); }
+.legal-back:visited{ color: var(--accent); }
+
 
 .legal-wrap{
   max-width: 960px;
