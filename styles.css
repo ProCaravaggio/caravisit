@@ -1269,3 +1269,13 @@ a:visited{
     );
   }
 }
+@media (max-width: 640px){
+  #map{
+    margin-top: calc(-1 * var(--header-h));
+    padding-top: var(--header-h);
+  }
+
+  .topbar{
+    background: rgba(27,20,16,.92);
+  }
+}
