@@ -241,6 +241,7 @@ function pointToPolylineMeters(polyLayer, latlng){
 
 function applyRouteMode(routeLayer, routeName = "", routeDesc = ""){
   activeRouteLayer = routeLayer;
+if (window.matchMedia("(max-width: 640px)").matches) setTopbarCollapsed(true);
 
   // evidenzia percorso attivo, spegne gli altri
   routePolylines.forEach(l => {
@@ -283,6 +284,7 @@ function applyRouteMode(routeLayer, routeName = "", routeDesc = ""){
 
 function clearRouteMode(){
   activeRouteLayer = null;
+if (window.matchMedia("(max-width: 640px)").matches) setTopbarCollapsed(false);
 
   // reset stile itinerari
   routePolylines.forEach(l => l.setStyle({ weight: 5, opacity: 0.9 }));
@@ -1330,6 +1332,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./sw.js");
   });
 }
+
 
 
 
