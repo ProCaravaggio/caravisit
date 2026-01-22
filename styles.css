@@ -1364,6 +1364,18 @@ html, body{
 .leaflet-bottom{
   bottom: 0 !important;
 }
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
+
+.header-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: none;
+  font-variant-ligatures: common-ligatures;
+}
+
+}
+
 
 
 
