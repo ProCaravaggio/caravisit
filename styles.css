@@ -1129,12 +1129,7 @@ box-sizing: border-box;
 .topbar .controls a *{
   pointer-events: none;
 }
-.topbar .controls button,
-.topbar .controls a,
-.topbar .controls input,
-.topbar .controls select{
-  pointer-events: auto;
-}
+
 
   /* fila icone: griglia centrata */
   .topbar .btn-row{
