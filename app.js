@@ -2,6 +2,13 @@
 const DEFAULT_VIEW = { center: [45.497, 9.644], zoom: 15 };
 
 const map = L.map("map", { zoomControl: false })
+  function kickLeafletResize(){
+  setTimeout(() => map.invalidateSize(), 50);
+  setTimeout(() => map.invalidateSize(), 250);
+}
+
+window.addEventListener("resize", kickLeafletResize);
+window.addEventListener("orientationchange", kickLeafletResize);
   .setView(DEFAULT_VIEW.center, DEFAULT_VIEW.zoom);
 
 L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
@@ -1332,6 +1339,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./sw.js");
   });
 }
+
 
 
 
