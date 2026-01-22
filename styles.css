@@ -1,4 +1,6 @@
 :root{
+  --header-h: 120px;
+  --footer-h: 56px;
   --bg: #1B1410;
   --panel: rgba(34,26,21,.92);
   --panel2: rgba(34,26,21,.78);
