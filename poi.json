@@ -580,7 +580,7 @@
     "type": "hidden",
     "category": "Tesori nascosti",
     "short": "",
-    "long": "Il cascinale è proprietà privata, avendo ancora funzione residenziale. Tuttavia, il fabbricato è uno degli esempi migliori di cascina bergamasca, ed è quindi sottoposto a vincolo monumentale. La cascina e la località in cui si trova devono i propri nomi probabilmente da 'àlbera', ovvero pioppo premulo. Albarito, infatti, sarebbe sinonimo di pioppeto.",
+    "long": "Il cascinale è proprietà privata, avendo ancora funzione residenziale. Tuttavia, il fabbricato è uno degli esempi migliori di cascina bergamasca, ed è quindi sottoposto a vincolo monumentale. La cascina e la località in cui si trova devono i propri nomi probabilmente da 'àlbera', ovvero pioppo premulo. Albarito, infatti, sarebbe sinonimo di pioppeto. Nelle immediate vicinanze è presente un fontanile.",
     "lat": 45.4546178,
     "lon": 9.6536404,
     "links": [],
@@ -1145,17 +1145,53 @@
     "links": [],
     "imgs": []
   },
-     {
-    "name": "Museo storico dei Combattenti e Reduci",
+   {
+    "name": "Fontanile dei Mosi, o Gaverine (Misano di Gera d'Adda)",
     "type": "see",
-    "category": "Museo",
+    "category": "Natura",
     "short": "",
-    "long": "",
-    "lat": 45.4926032,
-    "lon": 9.6407647,
+    "long": "Situato ad est del comune di Misano Gera d’Adda, è costituito da un insieme di teste alimentate da 27 bocche in ferro e in cemento. Da questo fontanile l’acqua sgorga abbondante tutto l’anno ad una temperatura costante di circa 14-15 gradi. Le teste confluiscono in una sola asta dando origine alla Roggia Cremasca. ",
+    "lat": 45.4656337,
+    "lon": 9.6390381,
     "links": [],
     "imgs": []
   },
+  {
+    "name": "Fontanile Campo dei Fiori (Mozzanica)",
+    "type": "see",
+    "category": "Natura",
+    "short": "",
+    "long": "Siamo già nel comune di Mozzanica. Campo dei Fiori è un fontanile recentemente restaurato. Si vedono chiaramente le varie parti che compongono un fontanile: la lunga testa di forma rettangolare, i vari ‘occhi’ sorgivi, le scarpate contenute da palizzate, l’asta che alimenta la Roggia Guadazzolo, diretta verso le campagne di Sergnano.",
+    "lat": 45.4522573,
+    "lon": 9.6753827,
+    "links": [],
+    "imgs": []
+  },
+  {
+    "name": "Vascapine",
+    "type": "see",
+    "category": "Natura",
+    "short": "",
+    "long": "Il fontanile Vascapine si trova poco distante dal Brancaleone, nella località Inferno, poco dopo Masano. Con il nome ‘Vascapine’ venivano chiamate un tempo le numerose sorgenti della zona. Le sue acque già dalla metà del XIV secolo vennero incanalate e condotte verso le rogge che irrigavano i campi intorno alla città, ma è stato reso di nuovo fruibile dal 1996.
+La derivazione principale è costituita dalla roggia Rognola, che a sua volta si divide in varie ramificazioni, che vanno verso il centro abitato di Caravaggio o in direzione di Mozzanica. \nPur non essendo considerato riserva naturale, il Fontanile ospita numerose specie animali in un’area recintata e protetta, caratterizzata da un grande specchio d’acqua. Al suo interno sono stati introdotti cigni reali ed alcune specie di pesci non originari del territorio. Tra le specie autoctone invece si annoverano anguille, germani reali, aironi e barbagianni.",
+    "lat": 45.5166857,
+    "lon": 9.6882371,
+    "links": [],
+    "imgs": []
+  },
+{
+    "name": "Pinacoteca Civica",
+    "type": "see",
+    "category": "Museo",
+    "short": "",
+    "long": "La pinacoteca civica di Caravaggio consiste di un'esposizione permanente ospitata all'interno del Palazzo Gallavresi. Tra i dipinti presenti: sei tavole con 'Episodi della vita di Maria e Giuseppe' di Cristoforo Ferrari de’ Giuchis, 'Sacrificio di Isacco' di Andrea Lanzani, 'Madonna del Rosario con S. Domenico e S. Rosa' del Legnanino, 'Madonna in trono con il Bambino e S. Giovannino tra SS. Francesco, Gerolamo, Elisabetta e un devoto' di Nicola Moietta. Inoltre, sono conservati alcuni disegni preparatori del Moriggia per gli affreschi del Santuario.",
+    "lat": 45.4972314,
+    "lon": 9.6440119,
+    "links": [],
+    "imgs": []
+  },
+
+  
    {
     "name": "Teatro San Carlo",
     "type": "see",
@@ -1178,54 +1214,7 @@
     "links": [],
     "imgs": []
   },
-   
-  
-  {
-    "name": "Fontanile Gaverine (Misano di Gera d'Adda)",
-    "type": "see",
-    "category": "Natura",
-    "short": "",
-    "long": "",
-    "lat": 45.4656337,
-    "lon": 9.6390381,
-    "links": [],
-    "imgs": []
-  },
-  {
-    "name": "Fontanile Campo dei Fiori (Mozzanica)",
-    "type": "see",
-    "category": "Natura",
-    "short": "",
-    "long": "",
-    "lat": 45.4522573,
-    "lon": 9.6753827,
-    "links": [],
-    "imgs": []
-  },
-  {
-    "name": "Vascapine",
-    "type": "see",
-    "category": "Natura",
-    "short": "",
-    "long": "",
-    "lat": 45.5166857,
-    "lon": 9.6882371,
-    "links": [],
-    "imgs": []
-  },
-  
-  {
-    "name": "Fontanili Albariti (Caravaggio/Capralba)",
-    "type": "see",
-    "category": "Natura",
-    "short": "",
-    "long": "",
-    "lat": 45.4619641,
-    "lon": 9.6481817,
-    "links": [],
-    "imgs": []
-  },
-  {
+   {
     "name": "Strage alla Veneta Mineraria",
     "type": "stories",
     "category": "Storia",
@@ -1247,28 +1236,7 @@
     "links": [],
     "imgs": []
   },
-  {
-    "name": "Giardino di Maria",
-    "type": "see",
-    "category": "Natura",
-    "short": "",
-    "long": "",
-    "lat": 45.4825007,
-    "lon": 9.6350577,
-    "links": [],
-    "imgs": ["img/maria1.JPEG"]
-  },
-   {
-    "name": "Pinacoteca Civica",
-    "type": "see",
-    "category": "Museo",
-    "short": "",
-    "long": "",
-    "lat": 45.4972314,
-    "lon": 9.6440119,
-    "links": [],
-    "imgs": []
-  },
+   
   {
     "name": "Achille Stuani",
     "type": "stories",
