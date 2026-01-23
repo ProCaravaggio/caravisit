@@ -300,17 +300,7 @@
       "img/cinemapace2.jpeg"
     ]
   },
-  {
-    "name": "Teatro San Carlo",
-    "type": "lost",
-    "category": "Edifici",
-    "short": "",
-    "long": "",
-    "lat": 45.4970378,
-    "lon": 9.6454676,
-    "links": [],
-    "imgs": []
-  },
+  
   {
     "name": "Il Conventino",
     "type": "lost",
@@ -396,23 +386,13 @@
       "img/amerighi.jpeg"
     ]
   },
-  {
-    "name": "Maria Fedeli",
-    "type": "stories",
-    "category": "Personaggi della storia",
-    "short": "",
-    "long": "",
-    "lat": 45.5001857,
-    "lon": 9.6545658,
-    "links": [],
-    "imgs": []
-  },
+ 
   {
     "name": "Tomba delle vittime dello scoppio del pirogenico militare",
     "type": "stories",
     "category": "Storia",
     "short": "",
-    "long": "",
+    "long": "Il 3 gennaio 1919, per cause non accertate, Caravaggio fu colpita da un grave incidente sul lavoro: l’esplosione del pirogenico, una fornace situata lungo la strada per Mozzanica e requisita durante la Grande Guerra per la produzione di razzi luminosi. Nell’esplosione persero la vita tredici giovani operaie e un caporale dell’esercito. \nLe vittime furono:\nAmieli Rosa,\nAmieli Angela,\nInico Maria,\nZibetti Giuseppa,\nVitali Angela,\nTadini Margherita,\nSudati Maddalena,\nMagni Pierina,\nMilanesi Giuseppa (detta Maddalena),\nPanigatti Giuseppa,\nMaestri Vittoria,\nMarta Maria Pia,\nCeserani Carolina.\nGiovan Battista Schiavo.\nL’episodio mise in luce la pericolosità delle lavorazioni industriali legate alla produzione bellica e la fragilità delle condizioni di lavoro dell’epoca, in particolare per la manodopera femminile. Questa tomba, della cui realizzazione si fece carico il Comune, conserva la memoria di una tragedia civile che segnò profondamente la comunità caravaggina. Del pirogenico oggi non resta praticamente nulla.",
     "lat": 45.5003805,
     "lon": 9.6555695,
     "links": [],
@@ -422,24 +402,14 @@
     "name": "Ugo Banfi",
     "type": "stories",
     "category": "Personaggi della storia",
-    "short": "",
+    "short": "Ugo Banfi nacque a Caravaggio il 9 dicembre 1887. A ventiquattro anni entrò a far parte dell’equipaggio del Titanic come cameriere e perse la vita nel naufragio del 15 aprile 1912. La sua vicenda collega la storia locale a uno degli eventi più noti del Novecento. Il disastro del Titanic, simbolo della fiducia assoluta nel progresso tecnico della Belle Époque, segnò profondamente l’immaginario collettivo europeo e mondiale, diventando emblema della fragilità umana di fronte alla forza della natura.",
     "long": "",
     "lat": 45.4998854,
     "lon": 9.6544149,
     "links": [],
     "imgs": []
   },
-  {
-    "name": "I martiri della Resistenza",
-    "type": "stories",
-    "category": "Storia",
-    "short": "",
-    "long": "",
-    "lat": 45.5002779,
-    "lon": 9.6543991,
-    "links": [],
-    "imgs": []
-  },
+  
   {
     "name": "Polidoro Caldara",
     "type": "stories",
@@ -1277,4 +1247,37 @@
     "links": [],
     "imgs": []
   }
+  {
+    "name": "Teatro San Carlo",
+    "type": "lost",
+    "category": "Edifici",
+    "short": "",
+    "long": "",
+    "lat": 45.4970378,
+    "lon": 9.6454676,
+    "links": [],
+    "imgs": []
+  },
+   {
+    "name": "Maria Fedeli",
+    "type": "stories",
+    "category": "Personaggi della storia",
+    "short": "",
+    "long": "",
+    "lat": 45.5001857,
+    "lon": 9.6545658,
+    "links": [],
+    "imgs": []
+  },
+  {
+    "name": "I martiri della Resistenza",
+    "type": "stories",
+    "category": "Storia",
+    "short": "",
+    "long": "",
+    "lat": 45.5002779,
+    "lon": 9.6543991,
+    "links": [],
+    "imgs": []
+  },
 ]
