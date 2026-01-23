@@ -9,7 +9,7 @@
     "lon": 9.6459602,
     "links": [],
     "imgs": [
-      "img/portafolcero1.jpeg"
+      "img/folcero1.jpg"
     ]
   },
   {
@@ -22,7 +22,8 @@
     "lon": 9.6447039,
     "links": [],
     "imgs": [
-      "img/seriola2.jpeg"
+      "img/seriola2.jpeg",
+      "img/seriola3.JPEG"
     ]
   },
   {
@@ -35,7 +36,8 @@
     "lon": 9.6403642,
     "links": [],
     "imgs": [
-      "img/portavicinato1.jpeg"
+      "img/vicinato1.jpg",
+      "img/vicinato2.JPEG"
     ]
   },
   {
@@ -48,7 +50,7 @@
     "lon": 9.6402782,
     "links": [],
     "imgs": [
-      "img/portaprata.jpeg"
+      "img/prata1.JPEG"
     ]
   },
   {
@@ -93,7 +95,7 @@
     "lat": 45.4964246,
     "lon": 9.6466412,
     "links": [],
-    "imgs": []
+    "imgs": ["img/pulcheria2.JPEG"]
   },
   {
     "name": "Località Montizzolo",
@@ -137,7 +139,7 @@
     "lat": 45.498144,
     "lon": 9.640063,
     "links": [],
-    "imgs": []
+    "imgs": ["img/rocca2.JPEG"]
   },
   {
     "name": "Le difese del borgo",
@@ -159,7 +161,7 @@
     "lat": 45.4954766,
     "lon": 9.6421103,
     "links": [],
-    "imgs": []
+    "imgs": ["img/vicoli3.JPEG"]
   },
   {
     "name": "Trigramma di Cristo",
@@ -171,8 +173,8 @@
     "lon": 9.6437214,
     "links": [],
     "imgs": [
-      "img/trigramma1.jpeg",
-      "img/trigramma2.jpeg"
+      "img/trigramma1.jpg",
+      "img/trigramma2.jpg"
     ]
   },
 
@@ -296,8 +298,8 @@
     "lon": 9.645461,
     "links": [],
     "imgs": [
-      "img/cinemapace1.jpeg",
-      "img/cinemapace2.jpeg"
+      "img/pace1.jpg",
+      "img/pace2.jpg"
     ]
   },
   
@@ -333,7 +335,7 @@
     "lon": 9.6428404,
     "links": [],
     "imgs": [
-      "img/osterie.jpeg"
+      "img/osterie1.jpg"
     ]
   },
   {
@@ -357,7 +359,7 @@
     "lon": 9.6456122,
     "links": [],
     "imgs": [
-      "img/scuolevecchie.jpeg"
+      "img/scuolevecchie1.JPEG"
     ]
   },
   {
@@ -378,12 +380,12 @@
     "type": "lost",
     "category": "Edifici",
     "short": "",
-    "long": "All’inizio del Novecento gli amanti del teatro dovevano spostarsi altrove. Per il terzo centenario della morte di Michelangelo Merisi (1910) si decise di erigere il Teatro Amerighi (storpiatura di 'Merisi') sulle ceneri di San Rocco dentro le mura. Il progetto fu dell’ing. Carlo Bedolini, con facciata liberty, dodici palchetti e circa 300 posti: la stampa lo soprannominò 'piccola Scala'. In seguito fu venduto e trasformato nel Cinema Merisi, poi demolito. (fonti: F. Tresoldi)",
+    "long": "All’inizio del Novecento gli amanti del teatro dovevano spostarsi altrove. Per il terzo centenario della morte di Michelangelo Merisi (1910) si decise di erigere il Teatro Amerighi (storpiatura di 'Merisi') sulle ceneri di San Rocco dentro le mura. Il progetto fu dell’ing. Carlo Bedolini, con facciata liberty, dodici palchetti e circa 300 posti: la stampa lo soprannominò 'piccola Scala'. In seguito fu venduto e trasformato nel Cinema Merisi, poi demolito. Oggi, al suo posto, è presente un condominio.",
     "lat": 45.4969643,
     "lon": 9.6428175,
     "links": [],
     "imgs": [
-      "img/amerighi.jpeg"
+      "img/amerighi1.jpeg"
     ]
   },
  
@@ -477,8 +479,8 @@
     "lon": 9.6440078,
     "links": [],
     "imgs": [
-      "img/casamoriggia.jpeg",
-      "img/casamoriggia1"
+      "img/casamoriggia1.jpg",
+      "img/casamoriggia2.jpg"
     ]
   },
   {
@@ -578,7 +580,9 @@
     "lat": 45.4983797,
     "lon": 9.6414755,
     "links": [],
-    "imgs": []
+    "imgs": ["img/ponticello1.JPEG";
+    "img/ponticello2.JPEG"
+    ]
   },
   {
     "name": "Murale del Caravaggio",
@@ -590,7 +594,7 @@
     "lon": 9.6408536,
     "links": [],
     "imgs": [
-      "img/murale.jpeg"
+      "img/murale1.JPEG"
     ]
   },
   {
@@ -603,10 +607,10 @@
     "lon": 9.6458272,
     "links": [],
     "imgs": [
-      "img/fossato.jpeg",
-      "img/fossato1.jpeg",
-      "img/fossato2.jpeg",
-      "img/fossato3.jpeg"
+      "img/roggia1.jpeg",
+      "img/roggia2.jpg",
+      "img/roggia3.JPEG",
+      "img/roggia4.jpg"
     ]
   },
   {
@@ -619,7 +623,7 @@
     "lon": 9.6410788,
     "links": [],
     "imgs": [
-      "img/scolaro"
+      "img/scolaro1.JPEG"
     ]
   },
   {
@@ -642,7 +646,7 @@
     "lat": 45.4970757,
     "lon": 9.6403948,
     "links": [],
-    "imgs": []
+    "imgs": ["img/xxv1.jpg"]
   },
   {
     "name": "Affresco di San Michele Arcangelo",
@@ -654,7 +658,7 @@
     "lon": 9.6432814,
     "links": [],
     "imgs": [
-      "img/sanmichele.jpeg"
+      "img/sanmichele1.jpg"
     ]
   },
   {
@@ -667,7 +671,7 @@
     "lon": 9.6447781,
     "links": [],
     "imgs": [
-      "img/affrescomadonna.jpeg"
+      "img/affrescoapparizione1.jpg"
     ]
   },
   {
@@ -704,7 +708,7 @@
     "lon": 9.6445605,
     "links": [],
     "imgs": [
-      "img/pizzicheria.jpeg"
+      "img/pizzicheria1.jpg"
     ]
   },
   {
@@ -793,7 +797,7 @@
     "lat": 45.4825007,
     "lon": 9.6350577,
     "links": [],
-    "imgs": []
+    "imgs": ["img/maria1.JPEG"]
   },
   {
     "name": "Il miracolo",
@@ -815,7 +819,7 @@
     "lat": 45.4927587,
     "lon": 9.6406053,
     "links": [],
-    "imgs": []
+    "imgs": ["img/sanbernardino2.jpg"]
   },
   {
     "name": "Santuario della Beata Maria Vergine del Fonte",
@@ -827,7 +831,8 @@
     "lon": 9.6317714,
     "links": [],
     "imgs": [
-      "img/santuario.jpeg"
+      "img/santuario1.JPEG",
+      "img/santuario4.JPEG"
     ]
   },
   {
@@ -872,7 +877,7 @@
     "lat": 45.4926452,
     "lon": 9.6409071,
     "links": [],
-    "imgs": []
+    "imgs": ["img/navale2.JPEG"]
   },
   {
     "name": "Il monastero",
@@ -884,8 +889,8 @@
     "lon": 9.6407464,
     "links": [],
     "imgs": [
-      "img/monastero1",
-      "img/sanbernardino2"
+      "img/monastero2.JPEG",
+      "img/monastero3.JPEG"
     ]
   },
   {
@@ -931,7 +936,7 @@
     "lon": 9.6438992,
     "links": [],
     "imgs": [
-      "img/ufficj.jpeg"
+      "img/ufficj.jpg"
     ]
   },
   {
@@ -966,7 +971,7 @@
     "lon": 9.6433965,
     "links": [],
     "imgs": [
-      "img/cirste2.jpeg"
+      "img/ospedale2.JPEG"
     ]
   },
   {
@@ -979,8 +984,8 @@
     "lon": 9.6445801,
     "links": [],
     "imgs": [
-      "img/carabelli.jpeg",
-      "img/carabelli1.jpeg"
+      "img/carabelli1.jpg",
+      "img/carabelli2.jpg"
     ]
   },
   {
@@ -993,9 +998,8 @@
     "lon": 9.63935,
     "links": [],
     "imgs": [
-      "img/casadelfascio2.jpeg",
-      "img/casadelfascio3.jpeg",
-      "img/casadelfascio4.jpeg"
+      "img/fascio2.JPEG",
+      "img/fascio3.JPEG"
     ]
   },
   {
@@ -1008,7 +1012,8 @@
     "lon": 9.6447162,
     "links": [],
     "imgs": [
-      "img/liberty2.jpeg"
+      "img/liberty1.JPEG",
+      "img/liberty3.jpg"
     ]
   },
   {
@@ -1021,10 +1026,9 @@
     "lon": 9.6450203,
     "links": [],
     "imgs": [
-      "img/campanile.jpeg",
-      "img/campanile1.jpeg",
-      "img/campanile2.jpeg",
-      "img/campanile3.jpeg"
+      "img/campanile1.jpg",
+      "img/campanile2.jpg",
+      "img/campanile3.JPEG"
     ]
   },
   {
@@ -1048,7 +1052,7 @@
     "lon": 9.6404879,
     "links": [],
     "imgs": [
-      "img/villarocchi.jpeg"
+      "img/rocchi1.jpg"
     ]
   },
   {
@@ -1061,7 +1065,7 @@
     "lon": 9.6407711,
     "links": [],
     "imgs": [
-      "img/merisi.jpeg"
+      "img/scuolemerisi1.JPEG"
     ]
   },
   {
@@ -1074,7 +1078,7 @@
     "lon": 9.6425072,
     "links": [],
     "imgs": [
-      "img/asilo2.png",
+      "img/asilo1.JPEG",
       "img/asilo3.jpeg"
     ]
   },
@@ -1088,8 +1092,9 @@
     "lon": 9.6451394,
     "links": [],
     "imgs": [
-      "img/parrocchiale1.jpeg",
-      "img/parrocchiale2.jpeg"
+      "img/parrocchiale1.JPEG",
+      "img/parrocchiale2.jpg",
+      "img/parrocchiale5.JPEG"
     ]
   },
   {
@@ -1102,7 +1107,7 @@
     "lon": 9.6450109,
     "links": [],
     "imgs": [
-      "img/santaliberata.jpeg"
+      "img/santaliberata1.jpeg"
     ]
   },
   {
@@ -1115,7 +1120,7 @@
     "lon": 9.6440038,
     "links": [],
     "imgs": [
-      "img/sangiovannibat.jpeg"
+      "img/sangiovannibattista1.jpg"
     ]
   },
   {
@@ -1139,7 +1144,7 @@
     "lon": 9.6451978,
     "links": [],
     "imgs": [
-      "img/santaelisabetta.jpeg"
+      "img/santaelisabetta1.jpg"
     ]
   },
   {
@@ -1163,7 +1168,7 @@
     "lon": 9.6391681,
     "links": [],
     "imgs": [
-      "img/neve.jpeg"
+      "img/nevi1.JPEG"
     ]
   },
   {
@@ -1187,7 +1192,7 @@
     "lon": 9.6442453,
     "links": [],
     "imgs": [
-      "img/sangiovannidecollato.jpeg"
+      "img/sangiovannidecollato1.jpg"
     ]
   },
   {
@@ -1222,7 +1227,7 @@
     "lon": 9.6395145,
     "links": [],
     "imgs": [
-      "img/sarocchetto.jpeg"
+      "img/rocchetto1.JPEG"
     ]
   },
   {
