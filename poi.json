@@ -1257,5 +1257,247 @@
     "lon": 9.6543991,
     "links": [],
     "imgs": []
+  },
+  {
+    "name": "Largo Donatori di Sangue",
+    "type": "services",
+    "category": "Parcheggio",
+    "short": "",
+    "long": "",
+    "lat": 45.4953720,
+    "lon": 9.6440317,
+    "links": [],
+    "imgs": []
+  },
+ {
+  "name": "Piazzale Morettini",
+    "type": "services",
+    "category": "Parcheggio",
+    "short": "",
+    "long": "",
+    "lat": 45.4998648,
+    "lon": 9.6369205,
+    "links": [],
+    "imgs": []
+  },
+   {
+  "name": "Largo Robecchi",
+    "type": "services",
+    "category": "Parcheggio",
+    "short": "",
+    "long": "",
+    "lat": 45.4986506,
+    "lon": 9.6419758,
+    "links": [],
+    "imgs": []
+  },
+    {
+  "name": "Stazione ferroviaria",
+    "type": "services",
+    "category": "Stazione",
+    "short": "",
+    "long": "",
+    "lat": 45.4911319,
+    "lon": 9.6382397,
+    "links": [],
+    "imgs": []
+  },
+   {
+  "name": "Stazione autobus",
+    "type": "services",
+    "category": "Stazione",
+    "short": "",
+    "long": "",
+    "lat": 45.4992101,
+    "lon": 9.6395336,
+    "links": [],
+    "imgs": []
+  },
+   {
+  "name": "Carabinieri",
+    "type": "services",
+    "category": "Emergenza",
+    "short": "",
+    "long": "",
+    "lat": 45.4995570,
+    "lon": 9.6394743,
+    "links": [],
+    "imgs": []
+  },
+   {
+  "name": "Poliiza locale",
+    "type": "services",
+    "category": "Emergenza",
+    "short": "",
+    "long": "",
+    "lat": 45.4925914,
+    "lon": 9.640589,
+    "links": [],
+    "imgs": []
+  },
+   {
+  "name": "Farmacia",
+    "type": "services",
+    "category": "Emergenza",
+    "short": "",
+    "long": "",
+    "lat": 45.4957712,
+    "lon": 9.6427841,
+    "links": [],
+    "imgs": []
+  },
+  {
+  "name": "Farmacia",
+    "type": "services",
+    "category": "Emergenza",
+    "short": "",
+    "long": "",
+    "lat": 45.4974713,
+    "lon": 9.6444076,
+    "links": [],
+    "imgs": []
+  },
+  {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Liceo Galilei. Disponibile ogni Lunedì, Martedì, Mercoledì, Giovedì, Venerdì dal 21/07/2024 dalle 08:00 alle 16:00.Disponibile ogni Sabato dal 21/07/2024 dalle 08:00 alle 13:00.",
+    "lat": 45.499821,
+    "lon": 9.637906,
+    "links": [],
+    "imgs": []
+  },
+   {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Scuola La Sorgente. Disponibile ogni Lunedì, Martedì, Mercoledì, Giovedì, Venerdì, Sabato dal 17/11/2023 dalle 07:30 alle 18:00.",
+    "lat": 45.500359,
+    "lon": 9.639124,
+    "links": [],
+    "imgs": []
+  },
+   {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Bocciofila. Disponibile sempre dalle 07:00 alle 23:59.",
+    "lat": 45.500344,
+    "lon": 9.637138,
+    "links": [],
+    "imgs": []
+  },
+   {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Portico del Municipio. Disponbilità ignota.",
+    "lat": 45.4971421,
+    "lon": 9.6439643,
+    "links": [],
+    "imgs": []
+  },
+  {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Stazione dei Carabinieri. Disponibile sempre dalle 08:00 alle 19:59.",
+    "lat": 45.499738,
+    "lon": 9.639242,
+    "links": [],
+    "imgs": []
+  },
+    {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Piscina comunale. Disponibilità ignota.",
+    "lat": 	45.49986,
+    "lon": 9.637472,
+    "links": [],
+    "imgs": []
+  },
+    {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Palazzetto dello Sport. Disponibile sempre dalle 08:00 alle 21:00.",
+    "lat": 45.500115,
+    "lon": 9.637252,
+    "links": [],
+    "imgs": []
+  },
+    {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Stadio comunale. Disponibilità ignota.",
+    "lat": 45.500332,
+    "lon": 9.636815,
+    "links": [],
+    "imgs": []
+  },
+    {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Palestra. Disponibilità ignota.",
+    "lat": 45.499519,
+    "lon": 9.636973,
+    "links": [],
+    "imgs": []
+  },
+    {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Oratorio. Disponibilità ignota.",
+    "lat": 45.497664,
+    "lon": 9.645757,
+    "links": [],
+    "imgs": []
+  },
+    {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Esterno sede Gruppo Alpini. Sempre.",
+    "lat": 45.506478,
+    "lon": 9.641597,
+    "links": [],
+    "imgs": []
+  },
+    {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Disponibile sempre dalle 08:00 alle 19:59.",
+    "lat": 45.499738,
+    "lon": 9.639242,
+    "links": [],
+    "imgs": []
+  },
+    {
+  "name": "Defibrillatore",
+    "type": "services",
+    "category": "DAE",
+    "short": "",
+    "long": "Palestra dell'oratorio. Disponibilità ignota.",
+    "lat": 45.497668,
+    "lon": 9.646205,
+    "links": [],
+    "imgs": []
   }
-]
+  ]
