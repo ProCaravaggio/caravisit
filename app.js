@@ -317,7 +317,7 @@ let userMarker = null;
 let activeCategory = "all";
 
 // ===== Livelli (default: solo luoghi da vedere) =====
-let activeTypes = new Set(["see"]); // see | stories | hidden | lost
+let activeTypes = new Set(["see"]); // see | stories | hidden | lost | services
 
 
 // ===== Preferiti =====
@@ -467,7 +467,7 @@ function syncLevelsUI(){
   if (!levelsList) return;
   const chips = Array.from(levelsList.querySelectorAll(".level-chip"));
 
-  const isAll = ["see","stories","hidden","lost"].every(x => activeTypes.has(x));
+  const isAll = ["see","stories","hidden","lost","services"].every(x => activeTypes.has(x));
   chips.forEach(ch => {
     const lv = ch.dataset.level;
     ch.classList.toggle("active",
@@ -1339,6 +1339,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./sw.js");
   });
 }
+
 
 
 
