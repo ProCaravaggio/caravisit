@@ -574,9 +574,12 @@ const categoryIcons = {
   "Storia": makeIcon("icons/storia.png"),
   "Tesori nascosti": makeIcon("icons/tesori.png"),
   "Edifici": makeIcon("icons/edifici.png"),
+  "DAE": makeIcon("icons/dae.png")
+  "Stazione": makeIcon("icons/stazioni.png")
+  "Parcheggio": makeIcon("icons/parcheggio.png")
   "Località": makeIcon("icons/localita.png"),
   "Luoghi": makeIcon("icons/quotidiano.png"),
-  "Luoghi di oggi": makeIcon("icons/oggi.png"),
+  "Emergenza": makeIcon("icons/emergenza.png"),
 };
 const defaultIcon = makeIcon("icons/default.png");
 
@@ -1339,6 +1342,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./sw.js");
   });
 }
+
 
 
 
