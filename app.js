@@ -448,7 +448,8 @@ if (toggleLevels) toggleLevels.addEventListener("click", () => {
 if (closeLevels) closeLevels.addEventListener("click", closeLevelsDrawer);
 
 function setLevel(mode){
-  if (mode === "all") activeTypes = new Set(["see","stories","hidden","lost"]);
+  // ✅ includi anche "services" quando scegli "Tutti"
+  if (mode === "all") activeTypes = new Set(["see","stories","hidden","lost",]);
   else activeTypes = new Set([mode]);
 
   activeCategory = "all";
@@ -456,12 +457,16 @@ function setLevel(mode){
   closeLevelsDrawer();
   closeSidePanel();
 
+  // ✅ mostra disclaimer quando attivi "services"
+  if (mode === "services") showServicesDisclaimer();
+
   buildLegend();
   renderMarkers({ shouldZoom: true });
 
   if (nearbyDrawer && !nearbyDrawer.classList.contains("hidden")) renderNearbyList();
   if (favsDrawer && !favsDrawer.classList.contains("hidden")) renderFavsList();
 }
+
 
 function syncLevelsUI(){
   if (!levelsList) return;
@@ -968,9 +973,6 @@ function buildLegend(){
   row.addEventListener("click", () => {
   activeCategory = (activeCategory === cat) ? "all" : cat;
 
-  if (cat === "services") {
-    showServicesDisclaimer();
-  }
 
   closeCatsDrawer();
   closeSidePanel();
@@ -1404,6 +1406,7 @@ function showServicesDisclaimer(){
     sessionStorage.setItem("servicesDisclaimerSeen", "yes");
   };
 }
+
 
 
 
