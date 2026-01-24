@@ -965,13 +965,18 @@ function buildLegend(){
       <div class="legend-count">${counts[cat] || 0}</div>
     `;
 
-    row.addEventListener("click", () => {
-      activeCategory = (activeCategory === cat) ? "all" : cat;
-      closeCatsDrawer();
-      closeSidePanel();
-      renderMarkers({ shouldZoom: true });
-      updateLegendActiveState();
-    });
+  row.addEventListener("click", () => {
+  activeCategory = (activeCategory === cat) ? "all" : cat;
+
+  if (cat === "services") {
+    showServicesDisclaimer();
+  }
+
+  closeCatsDrawer();
+  closeSidePanel();
+  renderMarkers({ shouldZoom: true });
+  updateLegendActiveState();
+});
 
     legendEl.appendChild(row);
   });
@@ -1386,6 +1391,20 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./sw.js");
   });
 }
+function showServicesDisclaimer(){
+  if (sessionStorage.getItem("servicesDisclaimerSeen")) return;
+
+  const el = document.getElementById("servicesDisclaimer");
+  if (!el) return;
+
+  el.classList.remove("hidden");
+
+  document.getElementById("closeDisclaimer").onclick = () => {
+    el.classList.add("hidden");
+    sessionStorage.setItem("servicesDisclaimerSeen", "yes");
+  };
+}
+
 
 
 
