@@ -1294,7 +1294,7 @@
     {
   "name": "Stazione ferroviaria",
     "type": "services",
-    "category": "Stazione",
+    "category": "Stazione del treno",
     "short": "",
     "long": "",
     "lat": 45.4911319,
@@ -1305,7 +1305,7 @@
    {
   "name": "Stazione autobus",
     "type": "services",
-    "category": "Stazione",
+    "category": "Stazione del bus",
     "short": "",
     "long": "",
     "lat": 45.4992101,
@@ -1316,7 +1316,7 @@
    {
   "name": "Carabinieri",
     "type": "services",
-    "category": "Emergenza",
+    "category": "Postazione di polizia",
     "short": "",
     "long": "",
     "lat": 45.4995570,
@@ -1325,9 +1325,9 @@
     "imgs": []
   },
    {
-  "name": "Poliiza locale",
+  "name": "Poliza locale",
     "type": "services",
-    "category": "Emergenza",
+    "category": "Postazione di polizia",
     "short": "",
     "long": "",
     "lat": 45.4925914,
@@ -1338,7 +1338,7 @@
    {
   "name": "Farmacia",
     "type": "services",
-    "category": "Emergenza",
+    "category": "Farmacia",
     "short": "",
     "long": "",
     "lat": 45.4957712,
@@ -1349,7 +1349,7 @@
   {
   "name": "Farmacia",
     "type": "services",
-    "category": "Emergenza",
+    "category": "Farmacia",
     "short": "",
     "long": "",
     "lat": 45.4974713,
