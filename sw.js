@@ -15,8 +15,8 @@ const ASSETS = [
   "./legal.css",
 
   "./manifest.webmanifest",
-  "./favicon.png",
-  "./apple-touch-icon.png",
+  "./icons/favicon.png",
+  "./icons/apple-touch-icon.png",
   "./icons/icon-192.png",
   "./icons/icon-512.png"
 ];
