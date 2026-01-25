@@ -146,8 +146,28 @@ function ensureTrackUI(){
     L.DomEvent.disableClickPropagation(div);
 
     div.querySelector('[data-act="toggle"]').addEventListener("click", () => {
-      tracking ? stopTracking() : startTracking();
-    });
+  if (!tracking) {
+    startTracking();
+    return;
+  }
+
+  // se sto tracciando ma NON sto seguendo (ho trascinato) → riaggancia
+  if (!followUser) {
+    followUser = true;
+    didAutoCenter = false;
+
+    // ricentra subito se ho già un fix recente
+    if (lastLatLng) {
+      map.setView(lastLatLng, Math.max(map.getZoom(), 17), { animate: true });
+      didAutoCenter = true;
+    }
+    updateTrackUI();
+    return;
+  }
+
+  // altrimenti: stop normale
+  stopTracking();
+});
 
     return div;
   };
@@ -173,7 +193,7 @@ function updateTrackUI(){
 
   if (tEl) tEl.textContent = tracking ? formatHMS(elapsed) : "00:00";
   if (dEl) dEl.textContent = (trackMeters/1000).toFixed(2);
-  if (btn) btn.textContent = tracking ? "Stop" : "Start";
+  if (btn) btn.textContent = !tracking ? "Start" : (followUser ? "Stop" : "Centra");
 }
 
 function startTracking(){
