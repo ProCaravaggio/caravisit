@@ -222,43 +222,39 @@ a:visited{
 }
 .side-panel.hidden{ display:none; }
 
+/* HEAD “sticky” che copre davvero tutta la testa, con angoli della card */
 .panel-head{
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;   /* la X resta a destra */
-  gap: 12px;
-
-  /* sticky “pulito” */
   position: sticky;
   top: 0;
   z-index: 10;
 
-  /* questo è IL punto: copri quello che scorre sotto */
-  padding: 10px 0 10px;        /* più aria sopra/sotto, ma senza sballare la card */
-  margin: -12px -14px 6px;     /* “aggancia” la head ai padding del pannello */
-  padding-left: 14px;
-  padding-right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  /* stesso colore/feel del pannello -> niente stacco */
-  background: linear-gradient(
-    to bottom,
-    rgba(34,26,21,.98) 0%,
-    rgba(34,26,21,.95) 70%,
-    rgba(34,26,21,0) 100%
-  );
+  /* allarga la fascia fino ai bordi della card (annulla il padding del pannello) */
+  margin: -12px -14px 8px;         /* -padding-top, -padding-x della .side-panel */
+  padding: 10px 14px 10px;         /* padding interno della fascia */
 
-  /* opzionale ma fa molto “premium” se supportato */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  /* stesso rounding sopra della card */
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+
+  /* copertura vera: niente trasparenze “bucherellate” */
+  background: rgba(34,26,21,.96);
+
+  /* IMPORTANTI: evita che testo/elementi sotto trapelino ai bordi arrotondati */
+  overflow: hidden;
 }
 
-/* lineetta che arriva FINO alla X */
+/* lineetta che arriva fino alla X (riempie lo spazio) */
 .panel-head::before{
   content:"";
-  flex: 1;                     /* prende tutto lo spazio disponibile */
   height: 1px;
-  background: rgba(200,161,90,.35);  /* identico mood del badge */
-  opacity: 1;
+  background: rgba(200,161,90,.45);
+  flex: 1;                 /* prende tutto lo spazio disponibile */
+  margin-right: 12px;      /* distanza dalla X */
+  opacity: .9;
 }
 
 .panel-title{
