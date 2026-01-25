@@ -1,7 +1,7 @@
 // ===== 1) Mappa =====
 const DEFAULT_VIEW = { center: [45.497, 9.644], zoom: 15 };
 
-const map = L.map("map", { zoomControl: false })
+const map = L.map("map", { zoomControl: false });
   function kickLeafletResize(){
   setTimeout(() => map.invalidateSize(), 50);
   setTimeout(() => map.invalidateSize(), 250);
@@ -365,7 +365,7 @@ if (window.matchMedia("(max-width: 640px)").matches) setTopbarCollapsed(false);
 let allPois = [];
 let markers = [];
 let userLatLng = null;
-let userMarker = null;
+let userLocateMarker = null;
 
 let activeCategory = "all";
 
@@ -1220,15 +1220,15 @@ function enableCompassOnce(){
 
     // usa absolute quando c'è, ma su alcuni device arriva solo "deviceorientation"
     const handler = (e) => {
-      if (!userMarker) return;
+  if (!userLocateMarker) return;
 
-      const alpha = (e && typeof e.alpha === "number") ? e.alpha : null;
-      if (alpha == null) return;
+  const alpha = (e && typeof e.alpha === "number") ? e.alpha : null;
+  if (alpha == null) return;
 
-      const heading = 360 - alpha;
-      const el = userMarker.getElement();
-      if (el) el.style.transform = `rotate(${heading}deg)`;
-    };
+  const heading = 360 - alpha;
+  const el = userLocateMarker.getElement();
+  if (el) el.style.transform = `rotate(${heading}deg)`;
+};
 
     window.addEventListener("deviceorientationabsolute", handler, true);
     window.addEventListener("deviceorientation", handler, true);
@@ -1259,9 +1259,8 @@ function locateMe() {
       map.setView([latitude, longitude], 16, { animate: true });
 
       // evita frecce duplicate
-      if (userMarker) userMarker.remove();
-      userMarker = L.marker([latitude, longitude], { icon: userArrowIcon }).addTo(map);
-
+      if (userLocateMarker) userLocateMarker.remove();
+userLocateMarker = L.marker([latitude, longitude], { icon: userArrowIcon }).addTo(map);
       // attiva bussola UNA sola volta
       enableCompassOnce();
 
