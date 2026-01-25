@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Map of Caravaggio</title>
+  
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#1b1410">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+
+<body>
+<header class="topbar">
+  <div class="brand">
+    <h1>CaraVisit</h1>
+    <p>Explore Caravaggio and its surroundings</p>
+  </div>
+
+  <button id="toggleTopbar" class="topbar-toggle" type="button"
+          aria-expanded="true" aria-label="Collapse panel">▾</button>
+
+  <div class="controls">
+    <div class="btn-row icon-bar">
+
+      <button id="toggleCats" class="icon-btn">
+        <span class="ico">☰</span>
+        <span class="lbl">Categories</span>
+      </button>
+
+      <button id="toggleLevels" class="icon-btn">
+        <span class="ico">⧉</span>
+        <span class="lbl">Levels</span>
+      </button>
+
+      <button id="toggleNearby" class="icon-btn primary">
+        <span class="ico">◎</span>
+        <span class="lbl">Explore</span>
+      </button>
+
+      <button id="openGuide" class="icon-btn" type="button">
+        <span class="ico">ⓘ</span>
+        <span class="lbl">Info</span>
+      </button>
+
+      <button id="toggleFavs" class="icon-btn">
+        <span class="ico">★</span>
+        <span class="lbl">Favourites</span>
+      </button>
+
+    </div>
+
+    <div class="search-row">
+      <label class="field grow">
+        <div class="search-wrap">
+          <input id="searchInput" placeholder="Search: castle, sanctuary, gate, museum..." />
+          <button id="clearSearch" class="clear-search" type="button" aria-label="Clear search">✕</button>
+        </div>
+      </label>
+
+      <div class="actions"></div>
+    </div>
+  </div>
+
+</header>
+
+<main class="layout">
+  <div id="map"></div>
+
+  <aside id="sidePanel" class="side-panel hidden" aria-label="Point of interest details" aria-hidden="true">
+    <div class="panel-head">
+      <button id="closePanel" class="btn-ghost" type="button" aria-label="Close panel">✕</button>
+    </div>
+    <div id="panelContent"></div>
+  </aside>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-title">Credits</div>
+    <div class="footer-text">
+      Maps: Carto / OpenStreetMap contributors •
+      Icons: Map Icons Collection (CC BY-SA 3.0) •
+      <a href="privacy-en.html">Privacy</a> •
+      <a href="note-legali-en.html">Legal notice</a>
+    </div>
+  </div>
+</footer>
+
+<div id="lightbox" class="lightbox hidden" aria-hidden="true">
+  <div class="frame" role="dialog" aria-modal="true" aria-label="Image gallery">
+    <button id="lbClose" class="close" type="button" aria-label="Close">✕</button>
+    <button id="lbPrev" class="nav prev" type="button" aria-label="Previous photo">‹</button>
+    <button id="lbNext" class="nav next" type="button" aria-label="Next photo">›</button>
+
+    <div id="lbCounter" class="counter"></div>
+    <img id="lbImg" src="" alt="">
+  </div>
+</div>
+
+<div id="catsDrawer" class="cats-drawer hidden" aria-hidden="true" role="dialog" aria-label="Categories">
+  <div class="cats-drawer-head">
+    <strong>Categories</strong>
+    <button id="closeCats" class="close-btn" type="button" aria-label="Close">✕</button>
+  </div>
+  <div id="legend" class="legend"></div>
+</div>
+
+<div id="levelsDrawer" class="cats-drawer hidden" aria-hidden="true" role="dialog" aria-label="Levels">
+  <div class="cats-drawer-head">
+    <strong>Levels</strong>
+    <button id="closeLevels" class="close-btn" type="button" aria-label="Close">✕</button>
+  </div>
+
+  <div class="levels-list" id="levelsList">
+    <button type="button" class="level-chip" data-level="all">All</button>
+    <button type="button" class="level-chip" data-level="see">🏛 Places to see</button>
+    <button type="button" class="level-chip" data-level="stories">📜 Stories & legends</button>
+    <button type="button" class="level-chip" data-level="hidden">✨ Hidden treasures</button>
+    <button type="button" class="level-chip" data-level="lost">🕰 Lost places</button>
+    <button type="button" class="level-chip" data-level="services">✳️ Services</button>
+
+    <!-- NEW: routes toggle -->
+    <button id="toggleRoutes" type="button" class="level-chip" aria-pressed="true">
+      🗺 Routes
+    </button>
+  </div>
+</div>
+
+<div id="nearbyDrawer" class="cats-drawer hidden" aria-hidden="true" role="dialog" aria-label="What’s nearby">
+  <div class="cats-drawer-head">
+    <strong>What’s nearby</strong>
+    <button id="closeNearby" class="close-btn" type="button" aria-label="Close">✕</button>
+  </div>
+  <div id="nearbyList" class="poi-list"></div>
+</div>
+
+<div id="favsDrawer" class="cats-drawer hidden">
+  <div class="cats-drawer-head">
+    <strong>Favourites</strong>
+    <button id="closeFavs" class="close-btn" type="button" aria-label="Close">✕</button>
+  </div>
+
+  <button id="toggleOnlyFavs" class="level-chip" type="button" aria-pressed="false">
+    Show favourites only
+  </button>
+
+  <div id="favsList" class="poi-list"></div>
+</div>
+
+<div id="servicesDisclaimer" class="disclaimer hidden">
+  <div class="disclaimer-box">
+    <p>
+      ⚠️ Defibrillator locations are taken from
+      <a href="https://www.areu.lombardia.it/web/home/mappa-dae-lombardia" target="_blank" rel="noopener">
+        AREU Lombardia
+      </a>
+      (updated on 24/01/2026).
+      They may change (this data is not updated automatically).
+    </p>
+    <button id="closeDisclaimer">Got it</button>
+  </div>
+</div>
+
+</body>
+</html>
