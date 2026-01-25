@@ -109,7 +109,8 @@
     "lon": 9.6423993,
     "links": [],
     "imgs": [
-      img/portanuova3.jpeg
+      "img/portanuova1.jpeg",
+      "img/portanuova3.jpeg"
     ]
   },
   {
@@ -165,7 +166,7 @@
     "lat": 45.4679552,
     "lon": 9.6517694,
     "links": [],
-    "imgs": []
+    "imgs": ["img/valle1.jpeg"]
   },
   {
     "name": "Rocca di Caravaggio",
@@ -555,7 +556,7 @@
     "lon": 9.6385345,
     "links": [],
     "imgs": [
-      img/viale2.jpeg
+      "img/viale2.jpeg"
     ]
   },
 
@@ -568,7 +569,7 @@
     "lat": 45.4812629,
     "lon": 9.630619,
     "links": [],
-    "imgs": []
+    "s": []
   },
   {
     "name": "Chiesa di San Bernardino",
@@ -579,7 +580,7 @@
     "lat": 45.4927587,
     "lon": 9.6406053,
     "links": [],
-    "imgs": ["img/sanbernardino2.jpg"]
+    "s": ["/sanbernardino2.jpg"]
   },
   {
     "name": "Santuario della Beata Maria Vergine del Fonte",
@@ -590,9 +591,9 @@
     "lat": 45.4825548,
     "lon": 9.6317714,
     "links": [],
-    "imgs": [
-      "img/santuario1.JPEG",
-      "img/santuario4.JPEG"
+    "s": [
+      "/santuario1.JPEG",
+      "/santuario4.JPEG"
     ]
   },
   {
@@ -604,7 +605,7 @@
     "lat": 45.4989231,
     "lon": 9.6599607,
     "links": [],
-    "imgs": []
+    "s": []
   },
   {
     "name": "Cascina Albarito",
@@ -615,7 +616,7 @@
     "lat": 45.4546178,
     "lon": 9.6536404,
     "links": [],
-    "imgs": []
+    "s": []
   },
   {
     "name": "Gli scontri fra Treviglio e Caravaggio",
@@ -626,7 +627,7 @@
     "lat": 45.4924841,
     "lon": 9.6403078,
     "links": [],
-    "imgs": []
+    "s": []
   },
   {
     "name": "Museo navale",
@@ -637,7 +638,7 @@
     "lat": 45.4926452,
     "lon": 9.6409071,
     "links": [],
-    "imgs": ["img/navale2.JPEG"] 
+    "s": ["/navale2.JPEG"] 
   },
   {
     "name": "Il monastero",
@@ -648,7 +649,7 @@
     "lat": 45.492659,
     "lon": 9.6407464,
     "links": [],
-    "imgs": [
+    "s": [
       "img/monastero2.JPEG",
       "img/monastero3.JPEG"
     ]
@@ -786,7 +787,7 @@
     "links": [],
     "imgs": [
       "img/scuolemerisi1.JPEG",
-      img/scuolemerisi2.jpeg
+      "img/scuolemerisi2.jpeg"
     ]
   },
   {
@@ -854,8 +855,8 @@
     "lon": 9.6542851,
     "links": [],
     "imgs": [
-      img/eusebio1.jpeg,
-      img/eusebio2.jpeg
+      "img/eusebio1.jpeg",
+      "img/eusebio2.jpeg"
     ]
   },
   {
@@ -1109,7 +1110,7 @@
     "lon": 9.6432385,
     "links": [],
     "imgs": [
-      img/putti1.jpeg
+      "img/putti1.jpeg"
     ]
   },
   {
@@ -1160,7 +1161,7 @@
     "links": [],
     "imgs": [
       "img/spiranella.jpeg",
-      img/spiranella2.jpeg
+      "img/spiranella2.jpeg"
     ]
   },
   {
@@ -1173,9 +1174,9 @@
     "lon": 9.6660446,
     "links": [],
     "imgs": [
-      img/brancaleone1.jpeg,
-      img/brancaleone2.jpeg,
-      img/brancaleone3.jpeg
+      "img/brancaleone1.jpeg",
+      "img/brancaleone2.jpeg",
+      "img/brancaleone3.jpeg"
     ]
   },
   {
@@ -1280,7 +1281,7 @@
     "lat": 45.5002779,
     "lon": 9.6543991,
     "links": [],
-    "imgs": []
+    "imgs": ["img/martiri1.jpeg"]
   },
   {
     "name": "Largo Donatori di Sangue",
