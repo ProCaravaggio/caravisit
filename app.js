@@ -22,7 +22,22 @@ map.getPane("routesPane").style.zIndex = 350; // markerPane è sopra (~600)
 
 // ===== Itinerari (LineString) + Punti pericolosi (Point) =====
 let itinerariLayer = null;
+let routesVisible = true;
 
+function setRoutesVisible(on){
+  routesVisible = !!on;
+
+  if (itinerariLayer){
+    if (routesVisible) itinerariLayer.addTo(map);
+    else itinerariLayer.remove();
+  }
+
+  // se nascondi i percorsi mentre sei in route mode → esci
+  if (!routesVisible && activeRouteLayer) clearRouteMode();
+
+  // aggiorna UI categorie se aperta
+  updateLegendActiveState();
+}
 // ===== Modalità percorso =====
 const ROUTE_NEAR_METERS = 180; // POI entro 180m dal percorso restano “normali”
 let routePolylines = [];
@@ -323,6 +338,7 @@ let activeTypes = new Set(["see"]); // see | stories | hidden | lost | services
 // ===== Preferiti =====
 const FAV_KEY = "caravaggio_favs_v1";
 let favSet = new Set();
+let onlyFavs = false;
 
 function loadFavs(){
   try{
@@ -510,7 +526,27 @@ const toggleNearby = document.getElementById("toggleNearby");
 const nearbyDrawer = document.getElementById("nearbyDrawer");
 const closeNearby = document.getElementById("closeNearby");
 const nearbyList = document.getElementById("nearbyList");
+// Drawer preferiti: toggle "solo preferiti"
+const toggleOnlyFavsBtn = document.getElementById("toggleOnlyFavs");
 
+function syncOnlyFavsUI(){
+  if (!toggleOnlyFavsBtn) return;
+  toggleOnlyFavsBtn.classList.toggle("active", onlyFavs);
+  toggleOnlyFavsBtn.setAttribute("aria-pressed", onlyFavs ? "true" : "false");
+}
+
+if (toggleOnlyFavsBtn){
+  toggleOnlyFavsBtn.addEventListener("click", () => {
+    onlyFavs = !onlyFavs;
+
+    renderMarkers({ shouldZoom: true });
+    renderFavsList();
+    buildLegend();
+    updateLegendActiveState();
+
+    syncOnlyFavsUI();
+  });
+}
 const openGuide = document.getElementById("openGuide");
 
 if (openGuide) {
@@ -551,6 +587,7 @@ const favsList = document.getElementById("favsList");
 function openFavs(){
   openDrawer(favsDrawer);
   renderFavsList();
+  syncOnlyFavsUI();
 }
 function closeFavsDrawer(){ closeDrawer(favsDrawer); }
 
@@ -872,8 +909,8 @@ function computeFiltered() {
 
     const hay = `${p.name} ${p.short || ""} ${p.long || ""}`.toLowerCase();
     const matchQ = !q || hay.includes(q);
-
-    return matchType && matchCat && matchQ;
+const matchFav = !onlyFavs || favSet.has(poiId(p));
+    return matchType && matchCat && matchQ && matchFav;
   });
 }
 
@@ -932,15 +969,44 @@ function renderMarkers({ shouldZoom = false } = {}) {
 // ===== 8) Legenda categorie (drawer) =====
 function updateLegendActiveState(){
   if (!legendEl) return;
+
   legendEl.querySelectorAll(".legend-item").forEach(el => {
-    el.classList.toggle("active", activeCategory !== "all" && el.dataset.cat === activeCategory);
+
+    // caso speciale: bottone "Percorsi"
+    if (el.dataset.cat === "__routes__") {
+      el.classList.toggle("active", routesVisible);
+      return;
+    }
+
+    // comportamento normale: categorie POI
+    el.classList.toggle(
+      "active",
+      activeCategory !== "all" && el.dataset.cat === activeCategory
+    );
   });
 }
 
 function buildLegend(){
   if (!legendEl) return;
   legendEl.innerHTML = "";
-
+// --- toggle percorsi (sempre in cima) ---
+{
+  const row = document.createElement("div");
+  row.className = "legend-item";
+  row.dataset.cat = "__routes__";
+  row.innerHTML = `
+    <div class="legend-left">
+      <img class="legend-icon" src="icons/default.png" alt="">
+      <div class="legend-name">Percorsi</div>
+    </div>
+    <div class="legend-count">${routePolylines.length || ""}</div>
+  `;
+  row.addEventListener("click", () => {
+    setRoutesVisible(!routesVisible);
+    closeCatsDrawer();
+  });
+  legendEl.appendChild(row);
+}
   const counts = {};
   computeFiltered().forEach(p => {
     if (!p.category) return;
@@ -1326,7 +1392,9 @@ async function loadItinerari(){
           layer.on("click", () => applyRouteMode(layer, name, desc));
         }
       }
-    }).addTo(map);
+});
+
+if (routesVisible) itinerariLayer.addTo(map);
 
   } catch(err){
     console.warn(err);
