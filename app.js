@@ -145,9 +145,15 @@ function ensureTrackUI(){
     `;
     L.DomEvent.disableClickPropagation(div);
 
-    div.querySelector('[data-act="toggle"]').addEventListener("click", () => {
+div.querySelector('[data-act="toggle"]').addEventListener("click", () => {
   if (!tracking) {
+    // quando inizi: nascondi la spiegazione e centra sul GPS
+    showRouteInfo(false);
     startTracking();
+
+    // appena parte, se hai già un fix recente centra subito
+    if (lastLatLng) map.setView(lastLatLng, 17, { animate: true });
+
     return;
   }
 
@@ -156,7 +162,6 @@ function ensureTrackUI(){
     followUser = true;
     didAutoCenter = false;
 
-    // ricentra subito se ho già un fix recente
     if (lastLatLng) {
       map.setView(lastLatLng, Math.max(map.getZoom(), 17), { animate: true });
       didAutoCenter = true;
@@ -165,9 +170,9 @@ function ensureTrackUI(){
     return;
   }
 
-  // altrimenti: stop normale
   stopTracking();
 });
+
 
     return div;
   };
@@ -218,21 +223,18 @@ didAutoCenter = false;
 
       // filtro: ignora GPS troppo impreciso
       if (accuracy && accuracy > 35) return;
-// marker posizione utente + cerchio accuratezza
-if (!userMarker){
-  userMarker = L.circleMarker(cur, { radius: 7, weight: 2 });
-  userMarker.addTo(map);
+// SOLO freccia (stessa cosa del "pallino"): crea o aggiorna userLocateMarker
+if (!userLocateMarker){
+  userLocateMarker = L.marker(cur, { icon: userArrowIcon }).addTo(map);
+  enableCompassOnce(); // ruota la freccia (se permesso)
 } else {
-  userMarker.setLatLng(cur);
+  userLocateMarker.setLatLng(cur);
 }
 
-if (!accCircle){
-  accCircle = L.circle(cur, { radius: accuracy || 0, weight: 1, fillOpacity: 0.08 });
-  accCircle.addTo(map);
-} else {
-  accCircle.setLatLng(cur);
-  if (accuracy) accCircle.setRadius(accuracy);
-}
+// aggiorna anche userLatLng così distanze/“vicino a me” restano coerenti
+userLatLng = cur;
+
+
 
 // comportamento "Maps": al primo fix centra forte, poi segue con pan
 if (followUser){
@@ -1279,8 +1281,13 @@ function locateMe() {
       map.setView([latitude, longitude], 16, { animate: true });
 
       // evita frecce duplicate
-      if (userLocateMarker) userLocateMarker.remove();
-userLocateMarker = L.marker([latitude, longitude], { icon: userArrowIcon }).addTo(map);
+      if (!userLocateMarker){
+  userLocateMarker = L.marker([latitude, longitude], { icon: userArrowIcon }).addTo(map);
+  enableCompassOnce();
+} else {
+  userLocateMarker.setLatLng([latitude, longitude]);
+}
+
       // attiva bussola UNA sola volta
       enableCompassOnce();
 
@@ -1541,6 +1548,7 @@ function showServicesDisclaimer(){
     };
   }
 }
+
 
 
 
