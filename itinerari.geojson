@@ -88,7 +88,7 @@
 {"type":"Feature","geometry":{"type":"Point","coordinates":[9.6435324,45.4788818,0]},"properties":{"name":"Attraversamento pericoloso (Rivoltana)","styleUrl":"#icon-1541-A52714-nodesc","icon-scale":1,"icon":"images/icon-1.png"}},
 {"type":"Feature","geometry":{"type":"Point","coordinates":[9.6628642,45.5084289,0]},"properties":{"name":"Attraversamento pericoloso (via Sacra dei Longobardi)","styleUrl":"#icon-1541-A52714-nodesc","icon-scale":1,"icon":"images/icon-1.png"}},
 {"type":"Feature","geometry":{"type":"Point","coordinates":[9.6579832,45.5287338,0]},"properties":{"name":"Attraversamento pericoloso (via Francesca)","styleUrl":"#icon-1541-A52714-nodesc","icon-scale":1,"icon":"images/icon-1.png"}},
-{"type":"Feature","geometry":{"type":"Point","coordinates":[9.6556912,45.5188206,0]},"properties":{"name":"Attraversamento pericoloso (Ferrovia)","styleUrl":"#icon-1541-A52714-nodesc","icon-scale":1,"icon":"images/icon-1.png"}},
+{"type":"Feature","geometry":{"type":"Poi nt","coordinates":[9.6556912,45.5188206,0]},"properties":{"name":"Attraversamento pericoloso (Ferrovia)","styleUrl":"#icon-1541-A52714-nodesc","icon-scale":1,"icon":"images/icon-1.png"}},
 {"type":"Feature","geometry":{"type":"Point","coordinates":[9.7412688,45.5875419,0]},"properties":{"name":"Percorrenza pericoloso (ponte sul fiume Serio di Ghisalba)","styleUrl":"#icon-1541-A52714-nodesc","icon-scale":1,"icon":"images/icon-1.png"}},
 {"type":"Feature","geometry":{"type":"Point","coordinates":[9.6836609,45.5118511,0]},"properties":{"name":"Percorrenza pericolosa","styleUrl":"#icon-1541-A52714-nodesc","icon-scale":1,"icon":"images/icon-1.png"}}
 ]}
