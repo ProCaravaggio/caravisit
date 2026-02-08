@@ -24,21 +24,21 @@ body.legal{
 }
 
 .legal-top{
-  position: sticky;   /* consiglio: fixed */
+  position: fixed;   /* NON sticky */
   top: 0;
   left: 0;
   right: 0;
-  z-index: 9999;
+  z-index: 5000;
 
   background: #1B1410;
   border-bottom: 1px solid var(--border);
 
-  /* questo è il punto: copre la zona sopra */
   padding-top: calc(10px + env(safe-area-inset-top));
   padding-left: 14px;
   padding-right: 14px;
   padding-bottom: 12px;
 }
+
 .legal-back{
   display:inline-flex;
   align-items:center;
@@ -178,4 +178,14 @@ body.legal{
   .footer{ padding: 8px 12px calc(16px + env(safe-area-inset-bottom)) 12px; }
   .footer-title{ font-size: 11px; }
   .footer-text{ font-size: 11px; }
+}
+body.legal{
+  margin:0;
+  min-height:100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.55;
+
+  padding-top: calc(60px + env(safe-area-inset-top));
 }
