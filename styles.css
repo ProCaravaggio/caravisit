@@ -765,16 +765,16 @@ line-height: 1.12;
   background: rgba(34,26,21,.92);
   border: 1px solid rgba(242,233,220,.18);
   border-radius: 14px;
-  padding: 10px 12px;
+  padding: 14px 16px;
   box-shadow: var(--shadow2);
   backdrop-filter: blur(8px);
-  min-width: 220px;
-  max-width: min(320px, 86vw);
+  min-width: 240px;
+  max-width: min(360px, 92vw);
 }
 
 .route-info-title{
   font-weight: 800;
-  font-size: 13px;
+  font-size: 15px;
   margin-bottom: 6px;
 }
 
@@ -790,9 +790,11 @@ line-height: 1.12;
 
 .route-info-desc{
   margin-top: 8px;
-  font-size: 12px;
+  font-size: 13px;
+line-height: 1.5;
+margin-top: 10px;
+padding-top: 10px;
   color: rgba(242,233,220,.86);
-  line-height: 1.35;
   border-top: 1px solid rgba(242,233,220,.10);
   padding-top: 8px;
 }
@@ -842,7 +844,7 @@ line-height: 1.12;
 
 @media (max-width: 640px){
   .route-info, .track-box{
-    max-width: 86vw;
+    max-width: 92vw;
   }
 }
 /* ===== Header: allineamento pulito ===== */
