@@ -628,7 +628,7 @@ line-height: 1.12;
 .footer{
   border-top: 1px solid var(--border);
   background: rgba(34,26,21,.88);
-  padding: 10px 16px calc(18px + env(safe-area-inset-botto,)) 16px;
+  padding: 10px 16px calc(18px + env(safe-area-inset-bottom)) 16px;
   text-align: center;
 }
 
@@ -1432,7 +1432,27 @@ html, body{
   font-weight: bold;
   cursor: pointer;
 }
+@media (max-width: 640px){
+  .topbar .controls .icon-btn{
+    display: grid !important;
+    place-items: center !important;
+    grid-template-rows: 1fr !important; /* ammazza layout icona+label */
+    gap: 0 !important;
+    padding: 0 !important;
+  }
 
+  .topbar .controls .icon-btn .ico{
+    margin: 0 !important;
+    height: auto !important;
+    display: grid !important;
+    place-items: center !important;
+  }
+
+  /* se le label esistono ancora ma le hai svuotate, nascondile */
+  .topbar .controls .icon-btn .lbl{
+    display: none !important;
+  }
+}
 
 
 
