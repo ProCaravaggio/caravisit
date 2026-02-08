@@ -12,6 +12,10 @@
   --noise: radial-gradient(circle at 20% 10%, rgba(242,233,220,.04), transparent 55%),
            radial-gradient(circle at 80% 30%, rgba(242,233,220,.03), transparent 55%),
            radial-gradient(circle at 30% 80%, rgba(0,0,0,.06), transparent 60%);
+
+  /* layout */
+  --footer-h: 56px;
+  --legal-top-h: 56px; /* altezza “vera” della barra sopra, esclusa safe-area */
 }
 
 body.legal{
@@ -21,8 +25,13 @@ body.legal{
   color: var(--text);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   line-height: 1.55;
+
+  /* spazio reale per header+footer su iPhone PWA */
+  padding-top: calc(var(--legal-top-h) + env(safe-area-inset-top));
+  padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom));
 }
 
+/* ===== TOP BAR (copre anche la zona sotto l’orario in PWA) ===== */
 .legal-top{
   position: fixed;
   top: 0;
@@ -33,13 +42,17 @@ body.legal{
   background: #1B1410;
   border-bottom: 1px solid var(--border);
 
-  padding: 10px 14px 12px;   /* ← NIENTE env(safe-area-inset-top) */
+  /* questo “vernicia” l’area della status bar */
+  padding-top: env(safe-area-inset-top);
 }
 
 .legal-back{
   display:inline-flex;
   align-items:center;
   gap:8px;
+
+  /* questa è la parte “visibile” della barra */
+  margin: 10px 14px 12px;
 
   padding: 6px 10px;
   border-radius: 10px;
@@ -55,7 +68,6 @@ body.legal{
 }
 .legal-back:hover{ filter: brightness(1.08); }
 .legal-back:visited{ color: var(--accent); }
-
 
 .legal-wrap{
   max-width: 960px;
@@ -110,23 +122,7 @@ body.legal{
   opacity: .95;
 }
 
-/* mobile */
-@media (max-width: 640px){
-  .legal-wrap{ padding: 14px 12px 24px; }
-  .legal-card{ padding: 16px 14px 8px; }
-  .legal-card h1{ font-size: 20px; }
-}
 /* ===== Footer uguale alla mappa ===== */
-:root{
-  --footer-h: 56px;
-}
-
-/* lascia spazio al footer fisso */
-body.legal{
-  padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom));
-}
-
-/* footer bar */
 .footer{
   position: fixed;
   left: 0;
@@ -171,19 +167,16 @@ body.legal{
 
 /* mobile */
 @media (max-width: 640px){
-  :root{ --footer-h: 64px; } /* un pelo più spazio “reale” */
+  :root{
+    --footer-h: 64px;
+    --legal-top-h: 62px; /* se vuoi un pelo più “ciccia” sopra */
+  }
+
+  .legal-wrap{ padding: 14px 12px 24px; }
+  .legal-card{ padding: 16px 14px 8px; }
+  .legal-card h1{ font-size: 20px; }
+
   .footer{ padding: 8px 12px calc(16px + env(safe-area-inset-bottom)) 12px; }
   .footer-title{ font-size: 11px; }
   .footer-text{ font-size: 11px; }
-}
-body.legal{
-  margin:0;
-  min-height:100vh;
-  background: var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  line-height: 1.55;
-
-  padding-top: 90px; /* <-- PARTI DA QUI */
-  padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom));
 }
