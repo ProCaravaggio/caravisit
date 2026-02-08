@@ -628,7 +628,7 @@ line-height: 1.12;
 .footer{
   border-top: 1px solid var(--border);
   background: rgba(34,26,21,.88);
-  padding: 10px 16px;
+  padding: 10px 16px calc(18px + env(safe-area-inset-botto,)) 16px;
   text-align: center;
 }
 
@@ -655,7 +655,7 @@ line-height: 1.12;
 
 /* Footer compatto su mobile */
 @media (max-width: 640px){
-  .footer{ padding: 8px 12px; }
+  .footer{ padding: 8px 12px 16px 12px; }
   .footer-title{ font-size: 11px; }
   .footer-text{ font-size: 11px; line-height: 1.25; }
 }
@@ -1432,6 +1432,7 @@ html, body{
   font-weight: bold;
   cursor: pointer;
 }
+
 
 
 
