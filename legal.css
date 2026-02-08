@@ -24,28 +24,21 @@ body.legal{
 }
 
 .legal-top{
-  position: sticky;
+  position: sticky;   /* consiglio: fixed */
   top: 0;
-  z-index: 50;
+  left: 0;
+  right: 0;
+  z-index: 9999;
 
-  /* altezza vera da header */
-  padding: 14px 14px 12px;
-
-  /* fondo pieno, non trasparente */
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(27,20,16,1) 0%,
-      rgba(27,20,16,0.98) 70%,
-      rgba(27,20,16,0.96) 100%
-    );
-
+  background: #1B1410;
   border-bottom: 1px solid var(--border);
 
-  /* questo evita che si veda roba sotto mentre scrolli */
-  backdrop-filter: blur(8px);
+  /* questo è il punto: copre la zona sopra */
+  padding-top: calc(10px + env(safe-area-inset-top));
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-bottom: 12px;
 }
-
 .legal-back{
   display:inline-flex;
   align-items:center;
