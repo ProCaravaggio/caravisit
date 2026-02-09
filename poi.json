@@ -1741,5 +1741,60 @@
     "lon": 9.6345,
     "links": [],
     "imgs": []
+  },
+  {
+    "name": "Castello di Malpaga",
+    "category": "Opere militari e fortificazioni",
+    "type": "see",
+    "short": "",
+    "long": "Il Castello si trova nella frazione di Malpaga, comune di Cavernago. Venne fondato nel XIV secolo da un nobile ghibellino, ma fu ceduto poco dopo al Comune di Bergamo. Il 29 aprile 1456, il famoso condottiero Bartolomeo Colleoni lo acquista abbandonato e diroccato con lo scopo di renderlo propria dimora personale. Sotto il dominio di Colleoni, il castello diventa un vivace centro di intrattenimento e cultura.\n\nSebbene non sia costruita, come altri castelli italiani e stranieri, sulla cima di colline e di rocce scoscese, la rocca, con la sua cinta muraria merlata e l’imponente torre si eleva a dominare la pianura circostante.\n\nIl castello è aperto al pubblico, per informazioni su orari e modalità di accesso visitare il [sito ufficiale](https://castellomalpaga.it/visita/visitatore/)",
+    "lat": 45.6161598,
+    "lon": 9.7584950,
+    "links": [],
+    "imgs": []
+  },
+    {
+    "name": "Castello di Liteggio",
+    "category": "Opere militari e fortificazioni",
+    "type": "see",
+    "short": "",
+    "long": " Il Castello di Liteggio è posto nell'omonima località ai margini del centro abitato. Venne fatto costruire nel XV secolo dai Visconti. Tutt'ora sono ancora visibili parti di muratura merlata ed il fossato, particolari che lo resero una fortificazione molto possente. Attualmente è in stato di decadimento ed è di proprietà privata.",
+    "lat": 45.5605386,
+    "lon": 9.6818391,
+    "links": [],
+    "imgs": []
+  },
+  {
+    "name": "Cinta muraria di Cologno al Serio",
+    "category": "Opere militari e fortificazioni",
+    "type": "see",
+    "short": "",
+    "long": "Il centro storico di Cologno al Serio mostra ancora oggi la struttura che il borgo possedeva in età medievale, dato che rimangono intatte e visibili la cinta muraria con il relativo fossato che proteggeva l'ingresso del paese. Al borgo si accedeva mediante quattro entrate tutt'oggi conservate.",
+    "lat": 45.5784356,
+    "lon": 9.7040404,
+    "links": [],
+    "imgs": []
+  },
+    {
+    "name": "Castello di Pagazzano",
+    "category": "Opere militari e fortificazioni",
+    "type": "see",
+    "short": "",
+    "long": "Il nucleo originario di Castello di Pagazzano risale al VI secolo, in epoca longobarda, lungo un’antica strada romana della Gera d’Adda e una roccaforte è documentata nel IX secolo durante la resistenza ai Franchi. Il primo documento ufficiale che cita Pagazzano è del 9 giugno 1186, in un diploma di Federico I Barbarossa che assegnava territori lungo l’Adda al Comune di Milano, a seguito dell'amicizia dimostrata da questa città. In questo modo, nel 1270 il castello apparteneva ai Torriani e passò poco dopo ai Visconti. La posizione di confine rispetto alla Serenissima e la proprità eccellente hanno portato sotto le mura di questo castello molte battaglie per il controllo della Gera d'Adda, ma anche grandi personaggi come Francesco Petrarca.\n\nL’aspetto attuale deriva dalla ricostruzione voluta dai Visconti di Brignano tra 1450 e 1475, in stile simile ai castelli sforzeschi. Oggi conserva tre delle cinque torri originarie e un raro fossato ancora pieno d’acqua con ponte levatoio funzionante: un caso unico nella Bergamasca.\n\nPer informazioni rispetto all'accesso al Castello visitare il [sito ufficiale](https://www.castellodipagazzano.it/).",
+    "lat": 45.5320756,
+    "lon": 9.6699771,
+    "links": [],
+    "imgs": []
+  },
+  {
+    "name": "Fontanili Conzacolo",
+    "category": "Natura",
+    "type": "see",
+    "short": "",
+    "long": "In territorio di Spirano, al confine con Cologno al Serio, si trova questa area caratterizzata da una serie di testate di fontanili, i meglio conservati della zona. Il Bosco del Conzacolo è da secoli proprietà dell’Opera Pia Misericordia Maggiore di Bergamo. Si tratta di un esempio unico di bosco della pianura bergamasca per biodiversità. L’acqua affiorante dalla serie di testate di fontanili confluisce poi in un’unica asta che convoglia le acque risorgive in un canale irriguo che si spinge a sud verso il comune di Brignano Gera d’Adda; rilevanti sono anche le sue connessioni, sempre a sud, con il Fosso Bergamasco.",
+    "lat": 45.5696721,
+    "lon": 9.6836684,
+    "links": [],
+    "imgs": []
   }
   ]
