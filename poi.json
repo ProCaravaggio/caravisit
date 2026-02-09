@@ -831,6 +831,38 @@
     ]
   },
   {
+    "name": "Chiesa di San Vitale Martire",
+    "type": "see",
+    "category": "Chiese e monasteri",
+    "short": "",
+    "long": "La chiesa che oggi rappresenta la parrocchia masanese è un edifico ricostruito nel 1928, dedicato a San Vitale Martire, santo la cui venerazione è molto antica in questa zona. L’edificio originale risale all’inizio del XIII secolo ma non ne si conserva traccia. All’interno si possono ammirare una Madonna che era originariamente collocata nella Chiesa di San Rocco in Caravaggio e databile al Settecento, e il Battesimo di Gesù dell’artista trevigliese Trento Longaretti, dipinto nel 1946. L’edificio ha subito un recentissimo restauro che ha ripristinato gli interni e la facciata.\n\nLe facciate della chiesa sono caratterizzate da modanature in cemento che perimetrano a tre altezze diverse l'edificio, mentre il paramento murario è caratterizzato da mattoni a vista originali; son presenti inoltre due cappelle laterali. La facciata principale è caratterizzata dal portale d'ingresso in legno affiancato dai laterali di medesima fattura ma più piccoli. La piazza antistante all'ingresso è in porfido ed acciottolato. Le gradinate di accesso alla Chiesa sono in pietra naturale. La facciata principale è dotata di grande rosone nel registro superiore e due ai lati in corrispondenza dei portoni laterali. La pianta dell'edificio è rettangolare scandita da telai in cemento armato dove si scorgono perfettamente le strutture principali.",
+    "lat": 45.5131031,
+    "lon": 9.6761072,
+    "links": [],
+    "imgs": []
+  },
+  {"name": "Palazzo Rubini",
+    "type": "see",
+    "category": "Edifici",
+    "short": "",
+    "long": "Probabilmente, dove oggi sorge questo palazzo si trovava il castello più antico del territorio comunale di Caravaggio, un castro che nel 1192 era difeso da barriere, mura e palizzate. Questa fortezza, derivata da una precedente corte forse romana, si trovava su un terrapieno ed era circondata da un fossato riempito dalle acque della fontana del Tisnengo. Fu prima dimora dei Carrara, poi dei Secco, i quali amministravano da Masano il loro potere politico ed economico su Caravaggio. Dopo la caduta dei Secco, il Palazzo divenuto villa rustica, passò prima ai Merlo, poi ai Rubini. Fu, infatti, acquistata dal famoso tenore romanese Giovanni Battista Rubini, il quale fece ristrutturare la dimora con lavori iniziati nel 1847."
+   "lat": 45.5125207,
+    "lon": 9.6745764,
+    "links": [],
+    "imgs": []
+  },
+  {
+    "name": "Chiesa di San Giovanni a Porta Latina",
+    "type": "see",
+    "category": "Chiese e monasteri",
+    "short": "",
+    "long": "Originariamente era una piccola chiesetta ad aula unica e due campate in stile romanico, costruita almeno nel XIII secolo per servire la comunità vidalenghese. Di questo edificio originale, eretto attorno all’anno Mille, però, non rimane traccia. La Chiesa è stata, infatti, ampliata e modificata varie volte nel tempo, soprattutto nel XVIII secolo con la realizzazione della torren dei transetti e di un allungamento. È attualmente affiancata da un campanile innalzato alla fine dell’800, dato che la torre antica fu danneggiata gravemente durante un violento temporale. Solo nel 1924 vengono alzate le due navate laterali, ampliate nel 1975.\n\nLa Chiesa mostra una facciata in mattoni pieni faccia, intonaco e lastre di marmo di Zandobbio. Internamente, è composta da una navata centrale a tre campate, che reggono su pilastri terminanti davanti l'abside. Le due navate laterali terminano rispettivamente a sinistra con la torre campanaria e a destra con la sacrestia, munita di magazzino.\n\n⏰ **Orari di apertura** ⏰:\n\nLunedì-domenica: 09:00-12:00 / 14:00-18:00",
+    "lat": 45.5232236,
+    "lon": 9.6408627,
+    "links": [],
+    "imgs": []
+  },
+  {
     "name": "San Giovanni Battista",
     "type": "see",
     "category": "Chiese e monasteri",
