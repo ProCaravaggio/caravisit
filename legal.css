@@ -180,3 +180,9 @@ body.legal{
   .footer-title{ font-size: 11px; }
   .footer-text{ font-size: 11px; }
 }
+.footer-logo{
+  height: 22px;        /* regola tra 16 e 22 finché ti piace */
+  width: auto;
+  vertical-align: middle;
+  margin-left: 4px;
+}
