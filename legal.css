@@ -194,7 +194,7 @@ body.legal{
 }
 
 .logo-center img{
-  height: 42px;      /* regola a occhio */
-  max-width: 180px;  /* evita che esploda su mobile */
+  height: 85px;      /* regola a occhio */
+  max-width: 260px;  /* evita che esploda su mobile */
   width: auto;
 }
