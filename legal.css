@@ -188,3 +188,13 @@ body.legal{
   vertical-align: middle;
   margin-left: 4px;
 }
+.logo-center{
+  text-align: center;
+  margin: 14px 0 6px;
+}
+
+.logo-center img{
+  height: 42px;      /* regola a occhio */
+  max-width: 180px;  /* evita che esploda su mobile */
+  width: auto;
+}
